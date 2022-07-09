@@ -1,4 +1,4 @@
-package br.com.controlefamilia.model;
+package com.example.controlefamiliabackend.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
