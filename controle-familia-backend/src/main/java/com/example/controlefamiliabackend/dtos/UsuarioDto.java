@@ -3,6 +3,7 @@ package com.example.controlefamiliabackend.dtos;
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.util.Date;
 
 @Data
@@ -19,7 +20,7 @@ public class UsuarioDto {
     @NotBlank
     private String dsNome;
 
-    @NotBlank
+    @NotNull
     private Date dtNascimento;
 
     private String dsCpf;

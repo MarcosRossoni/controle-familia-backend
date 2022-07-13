@@ -13,8 +13,8 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 
 @RestController
-@CrossOrigin(origins = "*", maxAge = 3600)
-@RequestMapping("cadastro-usuario")
+//@CrossOrigin(origins = "*", maxAge = 3600)
+@RequestMapping(path = "/usuario")
 public class UsuarioController {
 
     final UsuarioService usuarioService;
@@ -23,9 +23,10 @@ public class UsuarioController {
         this.usuarioService = usuarioService;
     }
 
+    @ResponseBody
     @PostMapping
     public ResponseEntity<Object> saveUsuario(@RequestBody @Valid UsuarioDto usuarioDto){
-        var usuarioModel = new UsuarioModel();
+        UsuarioModel usuarioModel = new UsuarioModel();
         BeanUtils.copyProperties(usuarioDto, usuarioModel);
         usuarioModel.setDtCadastro(LocalDateTime.now(ZoneId.of("UTC")));
         return ResponseEntity.status(HttpStatus.CREATED).body(usuarioService.save(usuarioModel));
