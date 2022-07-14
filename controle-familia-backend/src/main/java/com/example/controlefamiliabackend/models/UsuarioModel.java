@@ -3,20 +3,19 @@ package com.example.controlefamiliabackend.models;
 import lombok.Data;
 
 import javax.persistence.*;
-import java.io.Serializable;
+import java.math.BigInteger;
 import java.time.LocalDateTime;
 import java.util.Date;
-import java.util.UUID;
+
 
 @Data
 @Entity
 @Table(name = "ususario")
-public class UsuarioModel implements Serializable {
-    private static final long serialVersionUID = 1L;
+public class UsuarioModel{
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private UUID id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private BigInteger id;
 
     @Column(nullable = false, unique = true, length = 25)
     private String dsEmail;

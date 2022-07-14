@@ -4,6 +4,7 @@ import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Past;
 import java.util.Date;
 
 @Data
@@ -20,6 +21,7 @@ public class UsuarioDto {
     @NotBlank
     private String dsNome;
 
+    @Past
     @NotNull
     private Date dtNascimento;
 
