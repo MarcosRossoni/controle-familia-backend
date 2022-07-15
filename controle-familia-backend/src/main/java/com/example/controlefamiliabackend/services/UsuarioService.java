@@ -5,6 +5,9 @@ import com.example.controlefamiliabackend.repositories.UsuarioRepository;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.math.BigInteger;
+import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UsuarioService {
@@ -18,5 +21,22 @@ public class UsuarioService {
     @Transactional
     public UsuarioModel save(UsuarioModel usuarioModel) {
         return usuarioRepository.save(usuarioModel);
+    }
+
+    public boolean existsByDsEmail(String dsEmail){
+        return usuarioRepository.existsByDsEmail(dsEmail);
+    }
+
+    public List <UsuarioModel> findAll(){
+        return usuarioRepository.findAll();
+    }
+
+    public Optional<UsuarioModel> findById(BigInteger id) {
+        return usuarioRepository.findById(id);
+    }
+
+    @Transactional
+    public void delete(UsuarioModel usuarioModel) {
+        usuarioRepository.delete(usuarioModel);
     }
 }

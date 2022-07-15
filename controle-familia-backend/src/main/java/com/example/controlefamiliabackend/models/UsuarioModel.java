@@ -20,7 +20,7 @@ public class UsuarioModel{
     @Column(nullable = false, unique = true, length = 25)
     private String dsEmail;
 
-    @Column(nullable = false, unique = true, length = 25)
+    @Column(nullable = false, length = 25)
     private String dsSenha;
 
     @Column(length = 25)
