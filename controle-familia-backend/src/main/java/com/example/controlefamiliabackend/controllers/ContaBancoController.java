@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.util.List;
 
 @RestController
 @RequestMapping(path = "/conta-banco")
@@ -31,5 +32,10 @@ public class ContaBancoController {
         BeanUtils.copyProperties(contaBancoDto, contaBancoModel);
         contaBancoModel.setDtCadastro(LocalDateTime.now(ZoneId.of("UTF-3")));
         return ResponseEntity.status(HttpStatus.CREATED).body(contaBancoService.save(contaBancoModel));
+    }
+
+    @GetMapping
+    public ResponseEntity<List<ContaBancoModel>> getAllContaBnco(){
+        return ResponseEntity.status(HttpStatus.OK).body(contaBancoService.findAll());
     }
 }

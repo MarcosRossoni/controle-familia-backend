@@ -2,10 +2,12 @@ package com.example.controlefamiliabackend.services;
 
 import com.example.controlefamiliabackend.enuns.CodigoBancos;
 import com.example.controlefamiliabackend.models.ContaBancoModel;
+import com.example.controlefamiliabackend.models.UsuarioModel;
 import com.example.controlefamiliabackend.repositories.ContaBancoRepository;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.List;
 
 @Service
 public class ContaBancoService {
@@ -18,6 +20,7 @@ public class ContaBancoService {
 
     @Transactional
     public ContaBancoModel save(ContaBancoModel contaBancoModel){
+
         return contaBancoRepository.save(contaBancoModel);
     }
 
@@ -26,5 +29,9 @@ public class ContaBancoService {
             return codBanco;
         }
         return null;
+    }
+
+    public List<ContaBancoModel> findAll(){
+        return contaBancoRepository.findAll();
     }
 }
