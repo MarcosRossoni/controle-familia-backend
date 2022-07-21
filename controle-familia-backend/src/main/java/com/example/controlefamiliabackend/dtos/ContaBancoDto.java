@@ -14,9 +14,6 @@ public class ContaBancoDto {
     private UsuarioModel titular;
 
     @NotBlank
-    private String dsBanco;
-
-    @NotBlank
     private String codigoBanco;
 
     @NotBlank

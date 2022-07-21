@@ -3,6 +3,8 @@ package com.example.controlefamiliabackend.enuns;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
+import java.util.Objects;
+
 @AllArgsConstructor
 @Getter
 public enum CodigoBancos {
@@ -20,5 +22,14 @@ public enum CodigoBancos {
     private final String descricaoBanco;
 
     private final String codigoBanco;
+
+    public static CodigoBancos shortName(String codigoBanco){
+        for(CodigoBancos value : CodigoBancos.values()){
+            if(Objects.equals(codigoBanco, value.getCodigoBanco())){
+                return value;
+            }
+        }
+        return null;
+    }
 
 }

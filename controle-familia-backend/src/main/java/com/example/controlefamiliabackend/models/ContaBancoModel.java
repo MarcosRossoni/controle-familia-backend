@@ -1,6 +1,5 @@
 package com.example.controlefamiliabackend.models;
 
-import com.example.controlefamiliabackend.enuns.CodigoBancos;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -19,9 +18,6 @@ public class ContaBancoModel {
 
     @ManyToOne
     private UsuarioModel titular;
-
-    @Column(nullable = false, length = 250)
-    private String dsBanco;
 
     @Column(nullable = false, length = 250)
     private String codigoBanco;

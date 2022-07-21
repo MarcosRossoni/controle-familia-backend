@@ -2,18 +2,16 @@ package com.example.controlefamiliabackend.controllers;
 
 
 import com.example.controlefamiliabackend.dtos.ContaBancoDto;
-import com.example.controlefamiliabackend.enuns.CodigoBancos;
 import com.example.controlefamiliabackend.models.ContaBancoModel;
-import com.example.controlefamiliabackend.models.UsuarioModel;
 import com.example.controlefamiliabackend.services.ContaBancoService;
 import org.springframework.beans.BeanUtils;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 
 @RestController
 @RequestMapping(path = "/conta-banco")
@@ -25,9 +23,13 @@ public class ContaBancoController {
 
     @ResponseBody
     @PostMapping
-    public ResponseEntity<Object> saveContaBanco(@RequestMapping @Valid ContaBancoDto contaBancoDto){
+    public ResponseEntity<Object> saveContaBanco(@RequestBody @Valid ContaBancoDto contaBancoDto){
+        if(contaBancoService.verificaBanco(contaBancoDto.getCodigoBanco()) == null){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Banco nao encontrado");
+        }
         ContaBancoModel contaBancoModel = new ContaBancoModel();
         BeanUtils.copyProperties(contaBancoDto, contaBancoModel);
-        contaBancoModel.setDsBanco(CodigoBancos);
+        contaBancoModel.setDtCadastro(LocalDateTime.now(ZoneId.of("UTF-3")));
+        return ResponseEntity.status(HttpStatus.CREATED).body(contaBancoService.save(contaBancoModel));
     }
 }
