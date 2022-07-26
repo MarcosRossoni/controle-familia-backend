@@ -7,5 +7,5 @@ import org.springframework.stereotype.Repository;
 import java.math.BigInteger;
 
 @Repository
-public interface ContaBancoRepository extends JpaRepository<ContaBancoModel, BigInteger> {
+public interface ContaBancoRepository extends JpaRepository<ContaBancoModel, Integer> {
 }

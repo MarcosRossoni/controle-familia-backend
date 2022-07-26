@@ -10,35 +10,36 @@ import java.util.Date;
 
 @Data
 @Entity
-@Table(name = "ususario")
+@Table(name = "usuario")
 public class UsuarioModel{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private BigInteger id;
+    @Column(name = "id_usuario")
+    private Integer id;
 
-    @Column(nullable = false, unique = true, length = 50)
+    @Column(name= "email_usuario", nullable = false, unique = true, length = 50)
     private String dsEmail;
 
-    @Column(nullable = false, length = 25)
+    @Column(name= "senha", nullable = false, length = 25)
     private String dsSenha;
 
-    @Column(length = 25)
+    @Column(name= "telefone", length = 25)
     private String dsTelefone;
 
-    @Column(nullable = false, length = 255)
+    @Column(name= "nome", nullable = false, length = 255)
     private String dsNome;
 
-    @Column(nullable = false)
+    @Column(name= "dt_nascimento", nullable = false)
     private Date dtNascimento;
 
-    @Column(length = 25)
+    @Column(name= "cpf", length = 25)
     private String dsCpf;
 
-    @Column(nullable = false, length = 25)
+    @Column(name= "endereco", nullable = false, length = 25)
     private String dsEndereco;
 
-    @Column(nullable = false)
+    @Column(name= "dt_cadastro", nullable = false)
     private LocalDateTime dtCadastro;
 
 }

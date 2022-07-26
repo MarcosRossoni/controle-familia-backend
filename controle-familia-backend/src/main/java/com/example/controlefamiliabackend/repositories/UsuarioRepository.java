@@ -8,6 +8,6 @@ import java.math.BigInteger;
 
 
 @Repository
-public interface UsuarioRepository extends JpaRepository<UsuarioModel, BigInteger> {
+public interface UsuarioRepository extends JpaRepository<UsuarioModel, Integer> {
    boolean existsByDsEmail(String dsEmail);
 }

@@ -31,7 +31,7 @@ public class UsuarioService {
         return usuarioRepository.findAll();
     }
 
-    public Optional<UsuarioModel> findById(BigInteger id) {
+    public Optional<UsuarioModel> findById(Integer id) {
         return usuarioRepository.findById(id);
     }
 

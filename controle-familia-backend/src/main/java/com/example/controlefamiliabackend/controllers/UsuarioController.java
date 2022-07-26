@@ -43,7 +43,7 @@ public class UsuarioController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Object> getUsuario(@PathVariable(value = "id") BigInteger id){
+    public ResponseEntity<Object> getUsuario(@PathVariable(value = "id") Integer id){
         Optional<UsuarioModel> usuarioModelOptional = usuarioService.findById(id);
         return usuarioModelOptional.<ResponseEntity<Object>>map(
                 usuarioModel -> ResponseEntity.status(HttpStatus.OK).body(usuarioModel))
@@ -51,7 +51,7 @@ public class UsuarioController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Object> deleteUsuario(@PathVariable(value = "id") BigInteger id){
+    public ResponseEntity<Object> deleteUsuario(@PathVariable(value = "id") Integer id){
         Optional<UsuarioModel> usuarioModelOptional = usuarioService.findById(id);
         if(usuarioModelOptional.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Usuario nao encontrado!");
@@ -61,7 +61,7 @@ public class UsuarioController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Object> saveUsuario(@PathVariable(value = "id") BigInteger id,
+    public ResponseEntity<Object> saveUsuario(@PathVariable(value = "id") Integer id,
                                                @RequestBody @Valid UsuarioDto usuarioDto){
         Optional<UsuarioModel> usuarioModelOptional = usuarioService.findById(id);
         if(usuarioModelOptional.isEmpty()) {
