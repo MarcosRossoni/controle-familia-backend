@@ -5,6 +5,7 @@ import lombok.Data;
 import javax.persistence.*;
 import java.math.BigInteger;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.Date;
 
 
@@ -40,6 +41,6 @@ public class UsuarioModel{
     private String dsEndereco;
 
     @Column(name= "dt_cadastro", nullable = false)
-    private LocalDateTime dtCadastro;
+    private LocalDateTime dtCadastro = LocalDateTime.now();
 
 }

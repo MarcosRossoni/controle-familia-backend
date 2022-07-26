@@ -29,4 +29,14 @@ public class UsuarioDto {
 
     @NotBlank
     private String dsEndereco;
+
+    public UsuarioDto(String dsEmail, String dsTelefone,
+                      String dsNome, Date dtNascimento, String dsCpf, String dsEndereco) {
+        this.dsEmail = dsEmail;
+        this.dsTelefone = dsTelefone;
+        this.dsNome = dsNome;
+        this.dtNascimento = dtNascimento;
+        this.dsCpf = dsCpf;
+        this.dsEndereco = dsEndereco;
+    }
 }

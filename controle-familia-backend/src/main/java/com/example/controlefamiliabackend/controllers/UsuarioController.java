@@ -27,14 +27,18 @@ public class UsuarioController {
 
     @ResponseBody
     @PostMapping
-    public ResponseEntity<Object> saveUsuario(@RequestBody @Valid UsuarioDto usuarioDto){
+    public UsuarioDto saveUsuario(@RequestBody @Valid UsuarioDto usuarioDto){
         if(usuarioService.existsByDsEmail(usuarioDto.getDsEmail())){
+            //Mapper exception
             return ResponseEntity.status(HttpStatus.CONFLICT).body("Email ja cadastrado!");
         }
         UsuarioModel usuarioModel = new UsuarioModel();
         BeanUtils.copyProperties(usuarioDto, usuarioModel);
         usuarioModel.setDtCadastro(LocalDateTime.now(ZoneId.of("UTC-3")));
-        return ResponseEntity.status(HttpStatus.CREATED).body(usuarioService.save(usuarioModel));
+        usuarioService.save(usuarioModel);
+
+        return converter(usuarioModel);
+        //return ResponseEntity.status(HttpStatus.CREATED).body(usuarioService.save(usuarioModel));
     }
 
     @GetMapping
