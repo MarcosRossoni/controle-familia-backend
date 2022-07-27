@@ -1,20 +1,24 @@
 package com.example.controlefamiliabackend.dtos;
 
+import com.example.controlefamiliabackend.models.UsuarioModel;
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
+import java.math.BigInteger;
+import java.time.LocalDateTime;
 import java.util.Date;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Data
 public class UsuarioDto {
 
+    @NotNull
+    private BigInteger idUsuario;
     @NotBlank
     private String dsEmail;
-
-    @NotBlank
-    private String dsSenha;
 
     private String dsTelefone;
 
@@ -30,13 +34,28 @@ public class UsuarioDto {
     @NotBlank
     private String dsEndereco;
 
-    public UsuarioDto(String dsEmail, String dsTelefone,
-                      String dsNome, Date dtNascimento, String dsCpf, String dsEndereco) {
-        this.dsEmail = dsEmail;
-        this.dsTelefone = dsTelefone;
-        this.dsNome = dsNome;
-        this.dtNascimento = dtNascimento;
-        this.dsCpf = dsCpf;
-        this.dsEndereco = dsEndereco;
+    private LocalDateTime dtCadastro;
+
+    public UsuarioDto() {
+    }
+
+    public UsuarioDto(UsuarioModel usuarioModel) {
+        this.idUsuario = usuarioModel.getId();
+        this.dsEmail = usuarioModel.getDsEmail();
+        this.dsTelefone = usuarioModel.getDsTelefone();
+        this.dsNome = usuarioModel.getDsNome();
+        this.dtNascimento = usuarioModel.getDtNascimento();
+        this.dsCpf = usuarioModel.getDsCpf();
+        this.dsEndereco = usuarioModel.getDsEndereco();
+        this.dtCadastro = usuarioModel.getDtCadastro();
+    }
+
+
+    public static UsuarioDto converter(UsuarioModel usuarioModel){
+        return new UsuarioDto(usuarioModel);
+    }
+
+    public static List<UsuarioDto> converterList(List<UsuarioModel> usuarioList){
+        return usuarioList.stream().map(UsuarioDto::new).collect(Collectors.toList());
     }
 }

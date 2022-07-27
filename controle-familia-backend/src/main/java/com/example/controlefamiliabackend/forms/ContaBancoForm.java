@@ -1,38 +1,32 @@
-package com.example.controlefamiliabackend.dtos;
+package com.example.controlefamiliabackend.forms;
 
 import com.example.controlefamiliabackend.models.ContaBancoModel;
 import com.example.controlefamiliabackend.models.UsuarioModel;
+import com.example.controlefamiliabackend.repositories.ContaBancoRepository;
 import com.example.controlefamiliabackend.repositories.UsuarioRepository;
 import lombok.Data;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 
 @Data
-public class ContaBancoDto {
+public class ContaBancoForm {
 
-    @NotNull
     private BigInteger idUsuario;
 
-    @NotBlank
     private String codigoBanco;
 
-    @NotBlank
     private String agencia;
 
-    @NotBlank
     private String numConta;
 
-    @NotNull
     private BigDecimal saldo;
 
-    @NotBlank
     private String tipoConta;
 
     public ContaBancoModel converter(UsuarioRepository usuarioRepository){
-       UsuarioModel titular = usuarioRepository.getReferenceById(idUsuario);
-        return new ContaBancoModel(titular, codigoBanco, agencia, numConta, saldo, tipoConta);
+        UsuarioModel usuarioModel = usuarioRepository.getReferenceById(idUsuario);
+        return new ContaBancoModel(usuarioModel, codigoBanco, agencia,
+                numConta, saldo, tipoConta);
     }
 }
