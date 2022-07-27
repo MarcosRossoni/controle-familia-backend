@@ -1,6 +1,7 @@
 package com.example.controlefamiliabackend.controllers;
 
 import com.example.controlefamiliabackend.dtos.UsuarioDto;
+import com.example.controlefamiliabackend.forms.AtulizacaoUsuarioForm;
 import com.example.controlefamiliabackend.forms.UsuarioForm;
 import com.example.controlefamiliabackend.models.UsuarioModel;
 import com.example.controlefamiliabackend.repositories.UsuarioRepository;
@@ -10,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import javax.transaction.Transactional;
 import javax.validation.Valid;
 import java.math.BigInteger;
 import java.net.URI;
@@ -30,7 +32,8 @@ public class UsuarioController {
     }
 
     @PostMapping
-    public ResponseEntity<UsuarioDto> saveUsuario(@RequestBody @Valid UsuarioForm usuarioForm, UriComponentsBuilder uriComponentsBuilder){
+    public ResponseEntity<UsuarioDto> saveUsuario(@RequestBody @Valid UsuarioForm usuarioForm,
+                                                  UriComponentsBuilder uriComponentsBuilder){
 //        if(usuarioService.existsByDsEmail(usuarioDto.getDsEmail())){
 //            //Mapper exception
 //            return ResponseEntity.status(HttpStatus.CONFLICT).body("Email ja cadastrado!");
@@ -54,26 +57,23 @@ public class UsuarioController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Object> deleteUsuario(@PathVariable(value = "id") BigInteger id){
-        Optional<UsuarioModel> usuarioModelOptional = usuarioService.findById(id);
-        if(usuarioModelOptional.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Usuario nao encontrado!");
-        }
-        usuarioService.delete(usuarioModelOptional.get());
-        return ResponseEntity.status(HttpStatus.OK).body("Usuario deletado com sucesso!");
+    public UsuarioDto deleteUsuario(@PathVariable(value = "id") BigInteger id){
+//        UsuarioModel usuarioModel = usuarioRepository.delete(id);
+//        if(usuarioModelOptional.isEmpty()) {
+//            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Usuario nao encontrado!");
+//        }
+//        return ResponseEntity.status(HttpStatus.OK).body(usuarioModel);
+        return null;
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Object> saveUsuario(@PathVariable(value = "id") BigInteger id,
-                                               @RequestBody @Valid UsuarioDto usuarioDto){
-        Optional<UsuarioModel> usuarioModelOptional = usuarioService.findById(id);
-        if(usuarioModelOptional.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Usuario nao encontrado!");
-        }
-        UsuarioModel usuarioModel = usuarioModelOptional.get();
-        usuarioModel.setDsCpf(usuarioDto.getDsCpf());
-        usuarioModel.setDsTelefone(usuarioDto.getDsTelefone());
-        usuarioModel.setDtNascimento(usuarioDto.getDtNascimento());
-        return ResponseEntity.status(HttpStatus.CREATED).body(usuarioService.save(usuarioModel));
+    @Transactional
+    public ResponseEntity<UsuarioDto> atulizarUsuario(@PathVariable(value = "id") BigInteger id,
+                                                      @RequestBody @Valid AtulizacaoUsuarioForm atualizarUsuarioForm){
+        UsuarioModel usuarioModel = atualizarUsuarioForm.atulizar(id, usuarioRepository);
+//        if(usuarioModelOptional.isEmpty()) {
+//            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Usuario nao encontrado!");
+//        }
+        return ResponseEntity.ok(new UsuarioDto(usuarioModel));
     }
 }
