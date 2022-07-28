@@ -28,13 +28,13 @@ public class AtulizacaoUsuarioForm {
     @NotNull @NotEmpty
     private String dsCpf;
 
-    public UsuarioModel atulizar(BigInteger id, UsuarioRepository usuarioRepository) {
+    public UsuarioModel atualizar(BigInteger id, UsuarioRepository usuarioRepository) {
         UsuarioModel usuarioModel = usuarioRepository.getReferenceById(id);
         usuarioModel.setDsTelefone(this.dsTelefone);
         usuarioModel.setDsNome(this.dsNome);
         usuarioModel.setDsEndereco(this.dsEndereco);
         usuarioModel.setDtNascimento(this.dtNascimento);
         usuarioModel.setDsCpf(this.dsCpf);
-        return null;
+        return usuarioModel;
     }
 }

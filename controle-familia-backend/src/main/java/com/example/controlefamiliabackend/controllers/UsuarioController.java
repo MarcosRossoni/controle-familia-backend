@@ -32,12 +32,9 @@ public class UsuarioController {
     }
 
     @PostMapping
+    @Transactional
     public ResponseEntity<UsuarioDto> saveUsuario(@RequestBody @Valid UsuarioForm usuarioForm,
                                                   UriComponentsBuilder uriComponentsBuilder){
-//        if(usuarioService.existsByDsEmail(usuarioDto.getDsEmail())){
-//            //Mapper exception
-//            return ResponseEntity.status(HttpStatus.CONFLICT).body("Email ja cadastrado!");
-//        }
         UsuarioModel usuarioModel = usuarioForm.converter();
         URI uri = uriComponentsBuilder.path("/usuario/{id}").buildAndExpand(usuarioModel.getId()).toUri();
         usuarioRepository.save(usuarioModel);
@@ -57,23 +54,17 @@ public class UsuarioController {
     }
 
     @DeleteMapping("/{id}")
-    public UsuarioDto deleteUsuario(@PathVariable(value = "id") BigInteger id){
-//        UsuarioModel usuarioModel = usuarioRepository.delete(id);
-//        if(usuarioModelOptional.isEmpty()) {
-//            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Usuario nao encontrado!");
-//        }
-//        return ResponseEntity.status(HttpStatus.OK).body(usuarioModel);
-        return null;
+    @Transactional
+    public ResponseEntity<?> deleteUsuario(@PathVariable(value = "id") BigInteger id){
+        usuarioRepository.deleteById(id);
+        return ResponseEntity.ok().build();
     }
 
     @PutMapping("/{id}")
     @Transactional
     public ResponseEntity<UsuarioDto> atulizarUsuario(@PathVariable(value = "id") BigInteger id,
                                                       @RequestBody @Valid AtulizacaoUsuarioForm atualizarUsuarioForm){
-        UsuarioModel usuarioModel = atualizarUsuarioForm.atulizar(id, usuarioRepository);
-//        if(usuarioModelOptional.isEmpty()) {
-//            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Usuario nao encontrado!");
-//        }
+        UsuarioModel usuarioModel = atualizarUsuarioForm.atualizar(id, usuarioRepository);
         return ResponseEntity.ok(new UsuarioDto(usuarioModel));
     }
 }
