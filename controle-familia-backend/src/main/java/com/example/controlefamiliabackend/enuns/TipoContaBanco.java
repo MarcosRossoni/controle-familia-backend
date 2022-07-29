@@ -7,10 +7,8 @@ import lombok.Getter;
 @Getter
 public enum TipoContaBanco {
 
-    POUPANCA("P"),
+    POUPANCA,
 
-    CONTA_CORRENTE("CC");
-
-    private final String descricao;
+    CONTA_CORRENTE;
 
 }

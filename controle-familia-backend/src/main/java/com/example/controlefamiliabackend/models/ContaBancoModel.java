@@ -42,15 +42,19 @@ public class ContaBancoModel {
     private LocalDateTime dtCadastro = LocalDateTime.now();
 
     public ContaBancoModel(UsuarioModel titular, String codigoBanco, String agencia,
-                           String numConta, BigDecimal saldo, String tipoConta) {
+                           String numConta, BigDecimal saldo, Integer tipoConta) {
         this.titular = titular;
         this.codigoBanco = CodigoBancos.shortName(codigoBanco);
         this.agencia = agencia;
         this.numConta = numConta;
         this.saldo = saldo;
-        this.tipoConta = TipoContaBanco.valueOf(tipoConta);
+        this.tipoConta = TipoContaBanco.values()[tipoConta];
     }
 
     public ContaBancoModel() {
+    }
+
+    public ContaBancoModel(UsuarioModel titular) {
+        this.titular = titular;
     }
 }

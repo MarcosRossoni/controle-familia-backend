@@ -2,18 +2,20 @@ package com.example.controlefamiliabackend.controllers;
 
 
 import com.example.controlefamiliabackend.dtos.ContaBancoDto;
+import com.example.controlefamiliabackend.forms.AtualizacaoContaBancoForm;
+import com.example.controlefamiliabackend.forms.ContaBancoForm;
 import com.example.controlefamiliabackend.models.ContaBancoModel;
+import com.example.controlefamiliabackend.repositories.ContaBancoRepository;
 import com.example.controlefamiliabackend.repositories.UsuarioRepository;
 import com.example.controlefamiliabackend.services.ContaBancoService;
-import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.util.UriComponentsBuilder;
 
+import javax.transaction.Transactional;
 import javax.validation.Valid;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
+import java.math.BigInteger;
+import java.net.URI;
 import java.util.List;
 
 @RestController
@@ -21,28 +23,53 @@ import java.util.List;
 public class ContaBancoController {
 
     final ContaBancoService contaBancoService;
-
-    @Autowired
     final UsuarioRepository usuarioRepository;
+    final ContaBancoRepository contaBancoRepository;
 
-    public ContaBancoController(ContaBancoService contaBancoService, UsuarioRepository usuarioRepository){this.contaBancoService = contaBancoService;
+    public ContaBancoController(ContaBancoService contaBancoService, UsuarioRepository usuarioRepository,
+                                ContaBancoRepository contaBancoRepository){
+        this.contaBancoService = contaBancoService;
         this.usuarioRepository = usuarioRepository;
+        this.contaBancoRepository = contaBancoRepository;
     }
 
-    @ResponseBody
     @PostMapping
-    public ResponseEntity<Object> saveContaBanco(@RequestBody @Valid ContaBancoDto contaBancoDto){
-        if(contaBancoService.verificaBanco(contaBancoDto.getCodigoBanco()) == null){
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Banco nao encontrado");
-        }
-        ContaBancoModel contaBancoModel = contaBancoDto.converter(usuarioRepository);
-        BeanUtils.copyProperties(contaBancoDto, contaBancoModel);
-//        contaBancoModel.setDtCadastro(LocalDateTime.now(ZoneId.of("UTF")));
-        return ResponseEntity.status(HttpStatus.CREATED).body(contaBancoService.save(contaBancoModel));
+    @Transactional
+    public ResponseEntity<ContaBancoDto> saveContaBanco(@RequestBody @Valid ContaBancoForm contaBancoForm,
+                                                        UriComponentsBuilder uriComponentsBuilder){
+        ContaBancoModel contaBancoModel = contaBancoForm.converter(usuarioRepository);
+        URI uri = uriComponentsBuilder.path("/conta-banco/{id}").buildAndExpand(contaBancoModel
+                .getIdContaBancaria()).toUri();
+        contaBancoRepository.save(contaBancoModel);
+        return ResponseEntity.created(uri).body(new ContaBancoDto(contaBancoModel));
     }
 
     @GetMapping
-    public ResponseEntity<List<ContaBancoModel>> getAllContaBnco(){
-        return ResponseEntity.status(HttpStatus.OK).body(contaBancoService.findAll());
+    public List<ContaBancoDto> getAllContaBanco(){
+        List<ContaBancoModel> contaBanco = contaBancoRepository.findAll();
+        return ContaBancoDto.converterList(contaBanco);
+    }
+
+    @GetMapping("{id}")
+    public ContaBancoDto getContaBancaria(@PathVariable(value = "id") BigInteger id){
+        ContaBancoModel contaBancoModel = contaBancoRepository.getReferenceById(id);
+        return ContaBancoDto.converter(contaBancoModel);
+    }
+
+    @DeleteMapping("{id}")
+    @Transactional
+    public ResponseEntity<?> deleteContaBanco(@PathVariable(value = "id") BigInteger id){
+        contaBancoRepository.deleteById(id);
+        return ResponseEntity.ok().build();
+    }
+
+    @PutMapping("/{id}")
+    @Transactional
+    public ResponseEntity<ContaBancoDto> atualizarContaBanco(@PathVariable(value = "id") BigInteger id,
+                                                             @RequestBody @Valid
+                                                             AtualizacaoContaBancoForm atualizacaoContaBancoForm){
+        ContaBancoModel contaBancoModel = atualizacaoContaBancoForm.atualizar(id, contaBancoRepository, usuarioRepository);
+        return ResponseEntity.ok(new ContaBancoDto(contaBancoModel));
+
     }
 }

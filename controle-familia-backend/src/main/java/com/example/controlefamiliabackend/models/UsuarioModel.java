@@ -1,6 +1,7 @@
 package com.example.controlefamiliabackend.models;
 
 import lombok.Data;
+import org.hibernate.validator.constraints.br.CPF;
 
 import javax.persistence.*;
 import java.math.BigInteger;
@@ -33,6 +34,7 @@ public class UsuarioModel{
     @Column(name= "dt_nascimento", nullable = false)
     private Date dtNascimento;
 
+    @CPF
     @Column(name= "cpf", length = 25)
     private String dsCpf;
 

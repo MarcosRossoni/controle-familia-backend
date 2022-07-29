@@ -6,7 +6,6 @@ import com.example.controlefamiliabackend.forms.UsuarioForm;
 import com.example.controlefamiliabackend.models.UsuarioModel;
 import com.example.controlefamiliabackend.repositories.UsuarioRepository;
 import com.example.controlefamiliabackend.services.UsuarioService;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -16,7 +15,6 @@ import javax.validation.Valid;
 import java.math.BigInteger;
 import java.net.URI;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping(path = "/usuario")
