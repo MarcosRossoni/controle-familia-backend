@@ -5,6 +5,10 @@ import com.example.controlefamiliabackend.forms.AtulizacaoUsuarioForm;
 import com.example.controlefamiliabackend.forms.UsuarioForm;
 import com.example.controlefamiliabackend.models.UsuarioModel;
 import com.example.controlefamiliabackend.repositories.UsuarioRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -36,8 +40,9 @@ public class UsuarioController {
     }
 
     @GetMapping
-    public List<UsuarioDto> getAllUsuario(){
-        List<UsuarioModel> usuario = usuarioRepository.findAll();
+    public Page<UsuarioDto> getAllUsuario(@PageableDefault(sort = "id",
+            direction = Sort.Direction.ASC, page = 0, size = 10) Pageable paginacao){
+        Page<UsuarioModel> usuario = usuarioRepository.findAll(paginacao);
         return UsuarioDto.converterList(usuario);
     }
 

@@ -2,6 +2,7 @@ package com.example.controlefamiliabackend.dtos;
 
 import com.example.controlefamiliabackend.models.UsuarioModel;
 import lombok.Data;
+import org.springframework.data.domain.Page;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -55,7 +56,7 @@ public class UsuarioDto {
         return new UsuarioDto(usuarioModel);
     }
 
-    public static List<UsuarioDto> converterList(List<UsuarioModel> usuarioList){
-        return usuarioList.stream().map(UsuarioDto::new).collect(Collectors.toList());
+    public static Page<UsuarioDto> converterList(Page<UsuarioModel> usuarioList){
+        return usuarioList.map(UsuarioDto::new);
     }
 }
