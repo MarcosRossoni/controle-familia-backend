@@ -7,7 +7,6 @@ import com.example.controlefamiliabackend.forms.ContaBancoForm;
 import com.example.controlefamiliabackend.models.ContaBancoModel;
 import com.example.controlefamiliabackend.repositories.ContaBancoRepository;
 import com.example.controlefamiliabackend.repositories.UsuarioRepository;
-import com.example.controlefamiliabackend.services.ContaBancoService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -22,13 +21,11 @@ import java.util.List;
 @RequestMapping(path = "/conta-banco")
 public class ContaBancoController {
 
-    final ContaBancoService contaBancoService;
     final UsuarioRepository usuarioRepository;
     final ContaBancoRepository contaBancoRepository;
 
-    public ContaBancoController(ContaBancoService contaBancoService, UsuarioRepository usuarioRepository,
+    public ContaBancoController(UsuarioRepository usuarioRepository,
                                 ContaBancoRepository contaBancoRepository){
-        this.contaBancoService = contaBancoService;
         this.usuarioRepository = usuarioRepository;
         this.contaBancoRepository = contaBancoRepository;
     }

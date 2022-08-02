@@ -5,7 +5,6 @@ import com.example.controlefamiliabackend.forms.AtulizacaoUsuarioForm;
 import com.example.controlefamiliabackend.forms.UsuarioForm;
 import com.example.controlefamiliabackend.models.UsuarioModel;
 import com.example.controlefamiliabackend.repositories.UsuarioRepository;
-import com.example.controlefamiliabackend.services.UsuarioService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -20,12 +19,9 @@ import java.util.List;
 @RequestMapping(path = "/usuario")
 public class UsuarioController {
 
-    final UsuarioService usuarioService;
-
     private final UsuarioRepository usuarioRepository;
 
-    public UsuarioController(UsuarioService usuarioService, UsuarioRepository usuarioRepository) {
-        this.usuarioService = usuarioService;
+    public UsuarioController(UsuarioRepository usuarioRepository) {
         this.usuarioRepository = usuarioRepository;
     }
 
