@@ -19,7 +19,6 @@ public class SecurityConfigurations {
     private final UsuarioRepository usuarioRepository;
     private final AutenticacaoService autenticacaoService;
 
-    @Autowired
     public SecurityConfigurations(UsuarioRepository usuarioRepository, AutenticacaoService autenticacaoService) {
         this.usuarioRepository = usuarioRepository;
         this.autenticacaoService = autenticacaoService;
@@ -39,7 +38,7 @@ public class SecurityConfigurations {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
         http.authorizeRequests()
                 .antMatchers(HttpMethod.POST, "/usuario").permitAll()
-                .anyRequest().authenticated().and().formLogin();
+                .anyRequest().authenticated().and().formLogin().and().csrf().disable();
 
         return http.build();
     }
