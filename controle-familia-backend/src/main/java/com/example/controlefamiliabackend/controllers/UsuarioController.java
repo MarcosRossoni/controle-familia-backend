@@ -17,7 +17,6 @@ import javax.transaction.Transactional;
 import javax.validation.Valid;
 import java.math.BigInteger;
 import java.net.URI;
-import java.util.List;
 
 @RestController
 @RequestMapping(path = "/usuario")
