@@ -14,4 +14,6 @@ public interface UsuarioRepository extends JpaRepository<UsuarioModel, BigIntege
 
    Optional<UsuarioModel> findByDsEmail(String dsEmail);
 
+
+
 }

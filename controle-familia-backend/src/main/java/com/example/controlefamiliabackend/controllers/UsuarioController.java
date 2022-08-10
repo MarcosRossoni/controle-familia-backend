@@ -5,6 +5,7 @@ import com.example.controlefamiliabackend.forms.AtulizacaoUsuarioForm;
 import com.example.controlefamiliabackend.forms.UsuarioForm;
 import com.example.controlefamiliabackend.models.UsuarioModel;
 import com.example.controlefamiliabackend.repositories.UsuarioRepository;
+import com.example.controlefamiliabackend.service.UsuarioService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -23,16 +24,18 @@ import java.net.URI;
 public class UsuarioController {
 
     private final UsuarioRepository usuarioRepository;
+    final UsuarioService usuarioService;
 
-    public UsuarioController(UsuarioRepository usuarioRepository) {
+    public UsuarioController(UsuarioRepository usuarioRepository, UsuarioService usuarioService) {
         this.usuarioRepository = usuarioRepository;
+        this.usuarioService = usuarioService;
     }
 
     @PostMapping
     @Transactional
     public ResponseEntity<UsuarioDto> saveUsuario(@RequestBody @Valid UsuarioForm usuarioForm,
                                                   UriComponentsBuilder uriComponentsBuilder){
-        UsuarioModel usuarioModel = usuarioForm.converter();
+        UsuarioModel usuarioModel = usuarioService.registroDeUsuario(usuarioForm);
         URI uri = uriComponentsBuilder.path("/usuario/{id}").buildAndExpand(usuarioModel.getId()).toUri();
         usuarioRepository.save(usuarioModel);
         return ResponseEntity.created(uri).body(new UsuarioDto(usuarioModel));

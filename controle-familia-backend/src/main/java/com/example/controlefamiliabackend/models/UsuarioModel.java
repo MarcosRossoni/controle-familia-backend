@@ -27,7 +27,7 @@ public class UsuarioModel implements UserDetails {
     @Column(name= "email_usuario", nullable = false, unique = true, length = 50)
     private String dsEmail;
 
-    @Column(name= "senha", nullable = false, length = 25)
+    @Column(name= "senha", nullable = false, length = 60)
     private String dsSenha;
 
     @Column(name= "telefone", length = 25)
