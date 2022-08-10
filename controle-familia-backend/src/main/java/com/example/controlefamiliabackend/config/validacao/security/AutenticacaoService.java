@@ -15,7 +15,6 @@ public class AutenticacaoService implements UserDetailsService {
 
     private final UsuarioRepository repository;
 
-    @Autowired
     public AutenticacaoService(UsuarioRepository repository) {
         this.repository = repository;
     }
