@@ -20,6 +20,7 @@ import java.math.BigInteger;
 import java.net.URI;
 
 @RestController
+@Transactional
 @RequestMapping(path = "/usuario")
 public class UsuarioController {
 
@@ -32,7 +33,6 @@ public class UsuarioController {
     }
 
     @PostMapping
-    @Transactional
     public ResponseEntity<UsuarioDto> saveUsuario(@RequestBody @Valid UsuarioForm usuarioForm,
                                                   UriComponentsBuilder uriComponentsBuilder){
         UsuarioModel usuarioModel = usuarioService.registroDeUsuario(usuarioForm);
@@ -55,14 +55,12 @@ public class UsuarioController {
     }
 
     @DeleteMapping("/{id}")
-    @Transactional
     public ResponseEntity<?> deleteUsuario(@PathVariable(value = "id") BigInteger id){
         usuarioRepository.deleteById(id);
         return ResponseEntity.ok().build();
     }
 
     @PutMapping("/{id}")
-    @Transactional
     public ResponseEntity<UsuarioDto> atulizarUsuario(@PathVariable(value = "id") BigInteger id,
                                                       @RequestBody @Valid AtulizacaoUsuarioForm atualizarUsuarioForm){
         UsuarioModel usuarioModel = atualizarUsuarioForm.atualizar(id, usuarioRepository);
