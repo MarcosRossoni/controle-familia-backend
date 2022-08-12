@@ -8,7 +8,6 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -21,10 +20,12 @@ public class SecurityConfigurations {
 
     final UsuarioRepository usuarioRepository;
     final AutenticacaoService autenticacaoService;
+    final TokenService tokenService;
 
-    public SecurityConfigurations(UsuarioRepository usuarioRepository, AutenticacaoService autenticacaoService) {
+    public SecurityConfigurations(UsuarioRepository usuarioRepository, AutenticacaoService autenticacaoService, TokenService tokenService) {
         this.usuarioRepository = usuarioRepository;
         this.autenticacaoService = autenticacaoService;
+        this.tokenService = tokenService;
     }
 
     @Bean
@@ -50,7 +51,7 @@ public class SecurityConfigurations {
                 .anyRequest().authenticated()
                 .and().csrf().disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and().addFilterBefore(new AutenticacaoViaTokenFilter(), UsernamePasswordAuthenticationFilter.class);
+                .and().addFilterBefore(new AutenticacaoViaTokenFilter(tokenService), UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }
