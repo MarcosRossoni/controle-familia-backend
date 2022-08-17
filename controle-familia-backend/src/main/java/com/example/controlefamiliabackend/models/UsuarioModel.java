@@ -21,6 +21,7 @@ public class UsuarioModel implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Access(AccessType.PROPERTY)
     @Column(name = "id_usuario")
     private BigInteger id;
 

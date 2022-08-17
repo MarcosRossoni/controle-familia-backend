@@ -19,10 +19,13 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecurityConfigurations {
 
     final UsuarioRepository usuarioRepository;
+
     final AutenticacaoService autenticacaoService;
+
     final TokenService tokenService;
 
-    public SecurityConfigurations(UsuarioRepository usuarioRepository, AutenticacaoService autenticacaoService, TokenService tokenService) {
+    public SecurityConfigurations(UsuarioRepository usuarioRepository, AutenticacaoService autenticacaoService,
+                                  TokenService tokenService) {
         this.usuarioRepository = usuarioRepository;
         this.autenticacaoService = autenticacaoService;
         this.tokenService = tokenService;
@@ -48,10 +51,11 @@ public class SecurityConfigurations {
         http.authorizeRequests()
                 .antMatchers(HttpMethod.POST, "/usuario").permitAll()
                 .antMatchers(HttpMethod.POST, "/auth").permitAll()
+                .antMatchers(HttpMethod.GET, "/actuator/**").permitAll()
                 .anyRequest().authenticated()
                 .and().csrf().disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and().addFilterBefore(new AutenticacaoViaTokenFilter(tokenService), UsernamePasswordAuthenticationFilter.class);
+                .and().addFilterBefore(new AutenticacaoViaTokenFilter(tokenService, usuarioRepository), UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }
