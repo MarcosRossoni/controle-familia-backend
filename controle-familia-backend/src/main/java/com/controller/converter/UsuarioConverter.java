@@ -2,31 +2,39 @@ package com.controller.converter;
 
 import com.dto.UsuarioDTO;
 import com.orm.Usuario;
+import jakarta.enterprise.context.ApplicationScoped;
 
+@ApplicationScoped
 public class UsuarioConverter extends GenericConverter<Usuario, UsuarioDTO>{
 
     @Override
     public UsuarioDTO ormToDto(Usuario usuario) {
-        return null;
+        return ormToDto(usuario, new UsuarioDTO());
     }
 
     @Override
     public Usuario dtoToOrm(UsuarioDTO usuarioDTO) {
-        return null;
+        return dtoToOrm(usuarioDTO, new Usuario());
     }
 
     @Override
     public UsuarioDTO ormToDto(Usuario usuario, UsuarioDTO usuarioDTO) {
-        return null;
+
+        copy(usuario, usuarioDTO);
+
+        return usuarioDTO;
     }
 
     @Override
     public Usuario dtoToOrm(UsuarioDTO usuarioDTO, Usuario usuario) {
-        return null;
+
+        copy(usuarioDTO, usuario);
+
+        return usuario;
     }
 
     @Override
     protected String[] ignoreProperties() {
-        return new String[0];
+        return new String[]{"dsSenha", "dsSalt"};
     }
 }
