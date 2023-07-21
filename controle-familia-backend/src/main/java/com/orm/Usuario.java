@@ -6,6 +6,9 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.hibernate.type.TrueFalseConverter;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+
 @Data
 @Entity
 @Table(name = "usuario")
@@ -27,7 +30,13 @@ public class Usuario extends PanacheEntityBase {
     @Column(name = "ds_telefone", nullable = false, length = 11)
     private String dsTelefone;
 
-    @Column(name = "ds_senha", nullable = false, length = 20)
+    @Column(name = "dt_nascimento", nullable = false)
+    private LocalDate dtNascimento;
+
+    @Column(name = "ds_cpf", nullable = false)
+    private String dsCpf;
+
+    @Column(name = "ds_senha", nullable = false, length = 250)
     private String dsSenha;
 
     @Column(name = "ds_salt", length = 36)
@@ -37,6 +46,12 @@ public class Usuario extends PanacheEntityBase {
     @Convert(converter = TrueFalseConverter.class)
     @Column(name = "fg_ativo", nullable = false)
     private Boolean fgAtivo;
+
+    @Column(name = "dt_cadastro", nullable = false)
+    private LocalDateTime dtCadastro;
+
+    @Column(name = "dt_alteracao", nullable = false)
+    private LocalDateTime dtAlteracao;
 
     @Column(name = "ds_endereco", nullable = false, length = 200)
     private String dsEndereco;

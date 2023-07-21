@@ -4,6 +4,8 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import org.hibernate.validator.constraints.Length;
 
+import java.time.LocalDateTime;
+
 @Data
 public class UsuarioDTO {
 
@@ -21,11 +23,21 @@ public class UsuarioDTO {
     @Length(max = 11, message = "usuario.dsTelefone.length")
     private String dsTelefone;
 
+    @NotNull(message = "usuario.dtNascimento.notNull")
+    private String dtNascimento;
+
+    @NotNull(message = "usuario.dsCpf.notNull")
+    private String dsCpf;
+
     @NotNull(message = "usuario.dsSenha.notNull")
     @Length(min = 8, max = 20, message = "usuario.dsSenha.length")
     private String dsSenha;
 
     private Boolean fgAtivo;
+
+    private String dtCadastro;
+
+    private String dtAlteracao;
 
     @NotNull(message = "usuario.dsEndereco.notNull")
     @Length(max = 200, message = "usuario.dsEndereco.length")

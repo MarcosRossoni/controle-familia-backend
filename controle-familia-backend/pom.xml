@@ -22,7 +22,6 @@
     <commons-codec.version>1.16.0</commons-codec.version>
     <commons-io.version>2.13.0</commons-io.version>
     <jackson-datatype-json-org.version>2.15.2</jackson-datatype-json-org.version>
-
   </properties>
   <dependencyManagement>
     <dependencies>
