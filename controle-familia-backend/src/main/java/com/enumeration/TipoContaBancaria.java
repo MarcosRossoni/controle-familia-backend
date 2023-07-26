@@ -5,15 +5,11 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public enum LogEnum {
+public enum TipoContaBancaria {
 
-    LOGIN,
+    CONTA_CORRENTE,
 
-    LOGOUT,
+    CONTA_POUPANCA,
 
-    USUARIO,
-
-    MOVIMENTO,
-
-    CONTA_BANCARIA
+    APLICACAO
 }

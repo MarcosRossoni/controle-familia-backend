@@ -14,6 +14,9 @@ public class MovimentoConverter extends GenericConverter<Movimento, MovimentoDTO
     @Inject
     UsuarioConverter usuarioConverter;
 
+    @Inject
+    ContaBancariaConverter contaBancariaConverter;
+
     @Override
     public MovimentoDTO ormToDto(Movimento movimento) {
         return ormToDto(movimento, new MovimentoDTO());
@@ -29,6 +32,7 @@ public class MovimentoConverter extends GenericConverter<Movimento, MovimentoDTO
 
         copy(movimento, movimentoDTO);
         movimentoDTO.setUsuario(usuarioConverter.ormToDto(movimento.getUsuario()));
+        movimentoDTO.setContaBancaria(contaBancariaConverter.ormToDto(movimento.getContaBancaria()));
         movimentoDTO.setFgTipoMovimento(movimento.getFgTipoMovimento().ordinal());
         movimentoDTO.setDtMovimento(movimento.getDtMovimento().toString());
         movimentoDTO.setDtCadastro(movimento.getDtCadastro().toString());
@@ -47,6 +51,6 @@ public class MovimentoConverter extends GenericConverter<Movimento, MovimentoDTO
 
     @Override
     protected String[] ignoreProperties() {
-        return new String[]{"usuario", "fgTipoMovimento", "dtMovimento", "dtCadastro", "dtAlteracao"};
+        return new String[]{"usuario", "fgTipoMovimento", "dtMovimento", "dtCadastro", "dtAlteracao", "contaBancaria"};
     }
 }

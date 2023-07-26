@@ -22,4 +22,6 @@ public class MovimentoDTO {
     private Integer fgTipoMovimento;
 
     private UsuarioDTO usuario;
+
+    private ContaBancariaDTO contaBancaria;
 }

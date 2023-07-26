@@ -19,30 +19,34 @@ public class Movimento extends PanacheEntityBase {
 
     @Id
     @GeneratedValue(generator = "seq_movimento", strategy = GenerationType.SEQUENCE)
-    @Column(name = "id_movimento")
+    @Column(name = "id_movimento", nullable = false, updatable = false, unique = true)
     private Long idMovimento;
 
     @Column(name = "ds_descricao", nullable = false)
     private String dsDescricao;
 
-    @Column(name = "vl_movimento")
+    @Column(name = "vl_movimento", nullable = false)
     private BigDecimal vlMovimento;
 
-    @Column(name = "dt_movimento")
+    @Column(name = "dt_movimento", nullable = false)
     private LocalDate dtMovimento;
 
-    @Column(name = "dt_cadastro")
+    @Column(name = "dt_cadastro", nullable = false, updatable = false)
     private LocalDateTime dtCadastro;
 
-    @Column(name = "dt_alteracao")
+    @Column(name = "dt_alteracao", nullable = false)
     private LocalDateTime dtAlteracao;
 
     @Enumerated(EnumType.ORDINAL)
-    @Column(name = "fg_tipo_movimento")
+    @Column(name = "fg_tipo_movimento", nullable = false)
     private TipoMovimento fgTipoMovimento;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_usuario")
+    @JoinColumn(name = "id_usuario", nullable = false)
     private Usuario usuario;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_conta_bancaria", nullable = false)
+    private ContaBancaria contaBancaria;
 
 }

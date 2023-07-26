@@ -2,7 +2,9 @@ package com.controller;
 
 import com.controller.converter.MovimentoConverter;
 import com.dto.MovimentoDTO;
+import com.enumeration.LogEnum;
 import com.enumeration.TipoMovimento;
+import com.orm.ContaBancaria;
 import com.orm.Movimento;
 import com.orm.Usuario;
 import jakarta.enterprise.context.ApplicationScoped;
@@ -28,8 +30,13 @@ public class MovimentoController extends GenericController{
 
         movimento.setDtCadastro(LocalDateTime.now());
         movimento.setDtAlteracao(LocalDateTime.now());
-        movimento.setUsuario(Usuario.findById(6));
+        movimento.setUsuario(Usuario.findById(1));
+        movimento.setContaBancaria(ContaBancaria.findById(movimentoDTO.getContaBancaria().getIdContaBancaria()));
         movimento.persist();
+        registrarLog(
+                Usuario.findById(1),
+                "Adicionou movimento " + movimento.getIdMovimento().toString(),
+                LogEnum.MOVIMENTO);
         return movimentoConverter.ormToDto(movimento);
     }
 
@@ -37,7 +44,19 @@ public class MovimentoController extends GenericController{
 
         Movimento movimento = Movimento.findById(movimentoDTO.getIdMovimento());
 
-        return null;
+        movimentoConverter.dtoToOrm(movimentoDTO, movimento);
 
+        if (movimento.getFgTipoMovimento().equals(TipoMovimento.DESPESA)){
+            movimento.setVlMovimento(movimentoDTO.getVlMovimento().negate());
+        }
+
+        movimento.setDtAlteracao(LocalDateTime.now());
+        movimento.persist();
+        registrarLog(
+                Usuario.findById(1),
+                "Alterou movimento " + movimento.getIdMovimento().toString(),
+                LogEnum.MOVIMENTO);
+
+        return movimentoConverter.ormToDto(movimento);
     }
 }
