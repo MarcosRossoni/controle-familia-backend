@@ -2,10 +2,13 @@ package com.endpoint;
 
 import com.controller.ContaBancariaController;
 import com.dto.ContaBancariaDTO;
+import com.dto.project.ListContasBancariasProjectDTO;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
+
+import java.util.List;
 
 @Path("/conta-bancaria")
 @Consumes(MediaType.APPLICATION_JSON)
@@ -25,5 +28,11 @@ public class ContaBancarioEndpoint {
     public Response alterarContaBancaria(ContaBancariaDTO contaBancariaDTO){
         ContaBancariaDTO contaBancaria = contaBancariaController.atualizarContaBancaria(contaBancariaDTO);
         return Response.ok(contaBancaria).build();
+    }
+
+    @GET
+    public Response listarContas () {
+        List<ListContasBancariasProjectDTO> list = contaBancariaController.findAll();
+        return Response.ok(list).build();
     }
 }

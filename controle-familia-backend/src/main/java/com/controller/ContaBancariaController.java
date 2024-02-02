@@ -2,14 +2,17 @@ package com.controller;
 
 import com.controller.converter.ContaBancariaConverter;
 import com.dto.ContaBancariaDTO;
+import com.dto.project.ListContasBancariasProjectDTO;
 import com.enumeration.LogEnum;
 import com.orm.ContaBancaria;
 import com.orm.Usuario;
+import io.quarkus.panache.common.Sort;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @ApplicationScoped
 @Transactional
@@ -47,5 +50,11 @@ public class ContaBancariaController extends GenericController{
                 LogEnum.CONTA_BANCARIA);
 
         return contaBancariaConverter.ormToDto(contaBancaria);
+    }
+
+    public List<ListContasBancariasProjectDTO> findAll() {
+        return ContaBancaria.find("usuarioCadastro.idUsuario = 1", Sort.ascending("dsDescricao"))
+                .project(ListContasBancariasProjectDTO.class)
+                .list();
     }
 }
