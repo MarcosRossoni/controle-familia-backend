@@ -41,6 +41,7 @@ public class ContaBancariaController extends GenericController{
     public ContaBancariaDTO atualizarContaBancaria(ContaBancariaDTO contaBancariaDTO){
 
         ContaBancaria contaBancaria = ContaBancaria.findById(contaBancariaDTO.getIdContaBancaria());
+        contaBancariaConverter.dtoToOrm(contaBancariaDTO, contaBancaria);
         contaBancaria.setDtUltimaMovimentacao(LocalDateTime.now());
         contaBancaria.setUsuarioMovimentacao(Usuario.findById(1));
         contaBancaria.persist();
@@ -49,6 +50,11 @@ public class ContaBancariaController extends GenericController{
                 "Alterou conta bancaria " + contaBancaria.getIdContaBancaria().toString(),
                 LogEnum.CONTA_BANCARIA);
 
+        return contaBancariaConverter.ormToDto(contaBancaria);
+    }
+
+    public ContaBancariaDTO findById(Integer idConta) {
+        ContaBancaria contaBancaria = ContaBancaria.findById(idConta);
         return contaBancariaConverter.ormToDto(contaBancaria);
     }
 

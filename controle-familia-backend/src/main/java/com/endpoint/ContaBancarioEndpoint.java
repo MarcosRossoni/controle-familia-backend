@@ -18,6 +18,13 @@ public class ContaBancarioEndpoint {
     @Inject
     ContaBancariaController contaBancariaController;
 
+    @GET
+    @Path("/{id}")
+    public Response findById(@PathParam("id") Integer idConta) {
+        ContaBancariaDTO contaBancaria = contaBancariaController.findById(idConta);
+        return Response.ok(contaBancaria).build();
+    }
+
     @POST
     public Response cadastroContaBancaria(ContaBancariaDTO contaBancariaDTO){
         ContaBancariaDTO contaBancaria = contaBancariaController.cadastrarContaBancaria(contaBancariaDTO);
