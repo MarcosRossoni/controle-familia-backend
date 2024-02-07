@@ -29,9 +29,11 @@ public class ListContasBancariasProjectDTO {
 
     private String dtUltimaMovimentacao;
 
+    private Boolean fgAtiva;
+
     public ListContasBancariasProjectDTO(Integer idContaBancaria, String dsDescricao, String dsBanco, String numConta,
                                          String numAgencia, TipoContaBancaria fgContaBancaria, BigDecimal vlSaldoIncial,
-                                         BigDecimal vlSaldoAtual, LocalDateTime dtUltimaMovimentacao) {
+                                         BigDecimal vlSaldoAtual, LocalDateTime dtUltimaMovimentacao, Boolean fgAtiva) {
         this.idContaBancaria = idContaBancaria;
         this.dsDescricao = dsDescricao;
         this.dsBanco = dsBanco;
@@ -41,5 +43,6 @@ public class ListContasBancariasProjectDTO {
         this.vlSaldoIncial = vlSaldoIncial;
         this.vlSaldoAtual = vlSaldoAtual;
         this.dtUltimaMovimentacao = dtUltimaMovimentacao.toString();
+        this.fgAtiva = fgAtiva;
     }
 }

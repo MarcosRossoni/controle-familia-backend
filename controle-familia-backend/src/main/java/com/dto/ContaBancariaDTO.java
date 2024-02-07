@@ -25,6 +25,8 @@ public class ContaBancariaDTO {
 
     private String dtUltimaMovimentacao;
 
+    private Boolean fgAtiva;
+
     private UsuarioDTO usuarioCadastro;
 
     private UsuarioDTO usuarioMovimentacao;

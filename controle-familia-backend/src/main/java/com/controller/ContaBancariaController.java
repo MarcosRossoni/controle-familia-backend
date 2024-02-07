@@ -24,6 +24,7 @@ public class ContaBancariaController extends GenericController{
     public ContaBancariaDTO cadastrarContaBancaria(ContaBancariaDTO contaBancariaDTO){
 
         ContaBancaria contaBancaria = contaBancariaConverter.dtoToOrm(contaBancariaDTO);
+        contaBancaria.setFgAtiva(true);
         contaBancaria.setDtCadastro(LocalDateTime.now());
         contaBancaria.setDtUltimaMovimentacao(LocalDateTime.now());
         contaBancaria.setUsuarioCadastro(Usuario.findById(1));

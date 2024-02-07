@@ -5,6 +5,7 @@ import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import org.hibernate.type.TrueFalseConverter;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -48,6 +49,11 @@ public class ContaBancaria extends PanacheEntityBase {
 
     @Column(name = "dt_ultima_movimentacao", nullable = false)
     private LocalDateTime dtUltimaMovimentacao;
+
+    @Basic
+    @Convert(converter = TrueFalseConverter.class)
+    @Column(name = "fg_ativa", nullable = false)
+    private Boolean fgAtiva;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_usuario_cadastro", nullable = false, updatable = false)
