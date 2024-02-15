@@ -45,6 +45,7 @@ public class MovimentoConverter extends GenericConverter<Movimento, MovimentoDTO
 
         copy(movimentoDTO, movimento);
         movimento.setDtMovimento(LocalDate.parse(movimentoDTO.getDtMovimento()));
+        movimento.setDtVencimento(LocalDate.parse(movimentoDTO.getDtVencimento()));
         movimento.setFgTipoMovimento(TipoMovimento.values()[movimentoDTO.getFgTipoMovimento()]);
         return movimento;
     }

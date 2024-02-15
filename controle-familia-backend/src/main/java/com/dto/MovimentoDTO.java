@@ -11,15 +11,23 @@ public class MovimentoDTO {
 
     private String dsDescricao;
 
+    private Integer qtdParcelas;
+
     private BigDecimal vlMovimento;
 
     private String dtMovimento;
+
+    private String dtVencimento;
 
     private String dtCadastro;
 
     private String dtAlteracao;
 
+    private Boolean fgConciliarAutomatico;
+
     private Integer fgTipoMovimento;
+
+    private CategoriaDTO categoria;
 
     private UsuarioDTO usuario;
 
