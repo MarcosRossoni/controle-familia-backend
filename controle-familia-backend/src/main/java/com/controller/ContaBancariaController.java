@@ -2,8 +2,10 @@ package com.controller;
 
 import com.controller.converter.ContaBancariaConverter;
 import com.dto.ContaBancariaDTO;
+import com.dto.project.ListCidadesProjectDTO;
 import com.dto.project.ListContasBancariasProjectDTO;
 import com.enumeration.LogEnum;
+import com.orm.Cidade;
 import com.orm.ContaBancaria;
 import com.orm.Usuario;
 import io.quarkus.panache.common.Sort;
@@ -61,6 +63,13 @@ public class ContaBancariaController extends GenericController{
 
     public List<ListContasBancariasProjectDTO> findAll() {
         return ContaBancaria.find("usuarioCadastro.idUsuario = 1", Sort.ascending("dsDescricao"))
+                .project(ListContasBancariasProjectDTO.class)
+                .list();
+    }
+
+    public List<ListContasBancariasProjectDTO> autoCompleteContaBancaria(String param){
+        return ContaBancaria.find("LOWER(dsDescricao) LIKE LOWER(?1) AND usuarioCadastro.idUsuario = 1 AND fgAtiva = true",
+                        Sort.ascending("dsDescricao"), "%" + param + "%")
                 .project(ListContasBancariasProjectDTO.class)
                 .list();
     }

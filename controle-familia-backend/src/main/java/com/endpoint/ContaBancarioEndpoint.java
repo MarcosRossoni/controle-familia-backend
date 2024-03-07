@@ -2,6 +2,7 @@ package com.endpoint;
 
 import com.controller.ContaBancariaController;
 import com.dto.ContaBancariaDTO;
+import com.dto.project.ListCidadesProjectDTO;
 import com.dto.project.ListContasBancariasProjectDTO;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
@@ -40,6 +41,13 @@ public class ContaBancarioEndpoint {
     @GET
     public Response listarContas () {
         List<ListContasBancariasProjectDTO> list = contaBancariaController.findAll();
+        return Response.ok(list).build();
+    }
+
+    @GET
+    @Path("buscar-conta/{nome}")
+    public Response buscarCidade(@PathParam("nome") String dsNome){
+        List<ListContasBancariasProjectDTO> list = contaBancariaController.autoCompleteContaBancaria(dsNome);
         return Response.ok(list).build();
     }
 }

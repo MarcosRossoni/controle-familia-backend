@@ -9,6 +9,8 @@ public class MovimentoDTO {
 
     private Long idMovimento;
 
+    private Integer nrParcela;
+
     private String dsDescricao;
 
     private Integer qtdParcelas;
