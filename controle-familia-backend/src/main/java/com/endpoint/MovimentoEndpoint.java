@@ -2,7 +2,8 @@ package com.endpoint;
 
 import com.controller.MovimentoController;
 import com.dto.MovimentoDTO;
-import com.dto.project.ListMovimentoProjectDTO;
+import com.dto.project.list.ListMovimentoProjectDTO;
+import com.dto.project.projectdto.MovimentoProjectDTO;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
@@ -28,6 +29,13 @@ public class MovimentoEndpoint {
     public Response alterarMovimento(MovimentoDTO movimentoDTO){
         MovimentoDTO movimento = movimentoController.alterarMovimento(movimentoDTO);
         return Response.ok(movimento).build();
+    }
+
+    @GET
+    @Path("/{idMovimento}")
+    public Response findById(@PathParam("idMovimento") Long idMovimento) {
+        MovimentoDTO movimentoDTO = movimentoController.findByIdMovimento(idMovimento);
+        return Response.ok(movimentoDTO).build();
     }
 
     @GET

@@ -2,7 +2,7 @@ package com.endpoint;
 
 import com.controller.UsuarioController;
 import com.dto.UsuarioDTO;
-import com.dto.project.ListUsuarioProjectDTO;
+import com.dto.project.list.ListUsuarioProjectDTO;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;

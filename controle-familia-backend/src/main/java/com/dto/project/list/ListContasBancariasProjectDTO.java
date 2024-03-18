@@ -1,4 +1,4 @@
-package com.dto.project;
+package com.dto.project.list;
 
 import com.enumeration.TipoContaBancaria;
 import io.quarkus.runtime.annotations.RegisterForReflection;

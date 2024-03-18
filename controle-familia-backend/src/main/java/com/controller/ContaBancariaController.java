@@ -2,10 +2,8 @@ package com.controller;
 
 import com.controller.converter.ContaBancariaConverter;
 import com.dto.ContaBancariaDTO;
-import com.dto.project.ListCidadesProjectDTO;
-import com.dto.project.ListContasBancariasProjectDTO;
+import com.dto.project.list.ListContasBancariasProjectDTO;
 import com.enumeration.LogEnum;
-import com.orm.Cidade;
 import com.orm.ContaBancaria;
 import com.orm.Usuario;
 import io.quarkus.panache.common.Sort;

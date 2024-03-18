@@ -3,7 +3,7 @@ package com.controller;
 import com.controller.converter.UsuarioConverter;
 import com.controller.security.HashingController;
 import com.dto.UsuarioDTO;
-import com.dto.project.ListUsuarioProjectDTO;
+import com.dto.project.list.ListUsuarioProjectDTO;
 import com.enumeration.LogEnum;
 import com.orm.Cidade;
 import com.orm.Usuario;

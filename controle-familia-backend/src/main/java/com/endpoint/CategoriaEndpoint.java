@@ -2,7 +2,7 @@ package com.endpoint;
 
 import com.controller.CategoriaController;
 import com.dto.CategoriaDTO;
-import com.dto.project.ListCategoriaProjectDTO;
+import com.dto.project.list.ListCategoriaProjectDTO;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;

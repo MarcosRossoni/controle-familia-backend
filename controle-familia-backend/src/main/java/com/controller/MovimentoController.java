@@ -1,8 +1,9 @@
 package com.controller;
 
 import com.controller.converter.MovimentoConverter;
-import com.dto.project.ListMovimentoProjectDTO;
+import com.dto.project.list.ListMovimentoProjectDTO;
 import com.dto.MovimentoDTO;
+import com.dto.project.projectdto.MovimentoProjectDTO;
 import com.enumeration.LogEnum;
 import com.enumeration.TipoMovimento;
 import com.orm.Movimento;
@@ -50,10 +51,17 @@ public class MovimentoController extends GenericController{
         return movimentoConverter.ormToDto(movimento);
     }
 
+    public MovimentoDTO findByIdMovimento(Long idMovimento){
+        Movimento movimento = Movimento.find("idMovimento = ?1", idMovimento)
+                .firstResult();
+        return movimentoConverter.ormToDto(movimento);
+    }
+
     public List<ListMovimentoProjectDTO> listarMovimentos() {
-        return Movimento.find("SELECT m.idMovimento, m.nrParcela, m.dsDescricao, m.vlMovimento, m.dtMovimento, m.dtVencimento, " +
-                "m.fgConciliarAutomatico, m.categoria.dsDescricao, m.categoria.dsCor, m.contaBancaria.dsDescricao, m.contaBancaria.dsBanco " +
-                "FROM Movimento m WHERE m.usuario.idUsuario = ?1", 1)
+        return Movimento.find("SELECT m.idMovimento, m.nrParcela, m.qtdTotalParcelas, m.dsDescricao, m.vlMovimento, " +
+                        "m.dtMovimento, m.dtVencimento, m.fgConciliarAutomatico, m.categoria.dsDescricao, m.categoria.dsCor, " +
+                        "m.contaBancaria.dsDescricao, m.contaBancaria.dsBanco FROM Movimento m WHERE m.usuario.idUsuario = ?1",
+                        1)
                 .project(ListMovimentoProjectDTO.class)
                 .list();
     }

@@ -1,7 +1,7 @@
 package com.endpoint;
 
 import com.controller.CidadesController;
-import com.dto.project.ListCidadesProjectDTO;
+import com.dto.project.list.ListCidadesProjectDTO;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;

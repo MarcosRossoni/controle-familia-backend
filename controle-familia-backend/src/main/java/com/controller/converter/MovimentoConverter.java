@@ -17,6 +17,9 @@ public class MovimentoConverter extends GenericConverter<Movimento, MovimentoDTO
     @Inject
     ContaBancariaConverter contaBancariaConverter;
 
+    @Inject
+    CategoriaConverter categoriaConverter;
+
     @Override
     public MovimentoDTO ormToDto(Movimento movimento) {
         return ormToDto(movimento, new MovimentoDTO());
@@ -37,6 +40,8 @@ public class MovimentoConverter extends GenericConverter<Movimento, MovimentoDTO
         movimentoDTO.setDtMovimento(movimento.getDtMovimento().toString());
         movimentoDTO.setDtCadastro(movimento.getDtCadastro().toString());
         movimentoDTO.setDtAlteracao(movimento.getDtAlteracao().toString());
+        movimentoDTO.setDtVencimento(movimento.getDtVencimento().toString());
+        movimentoDTO.setCategoria(categoriaConverter.ormToDto(movimento.getCategoria()));
         return movimentoDTO;
     }
 

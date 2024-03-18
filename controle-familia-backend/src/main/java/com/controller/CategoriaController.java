@@ -2,7 +2,7 @@ package com.controller;
 
 import com.controller.converter.CategoriaConverter;
 import com.dto.CategoriaDTO;
-import com.dto.project.ListCategoriaProjectDTO;
+import com.dto.project.list.ListCategoriaProjectDTO;
 import com.enumeration.TipoMovimento;
 import com.orm.Categoria;
 import com.orm.Usuario;

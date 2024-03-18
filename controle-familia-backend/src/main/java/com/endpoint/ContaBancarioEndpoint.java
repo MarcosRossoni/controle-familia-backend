@@ -2,8 +2,7 @@ package com.endpoint;
 
 import com.controller.ContaBancariaController;
 import com.dto.ContaBancariaDTO;
-import com.dto.project.ListCidadesProjectDTO;
-import com.dto.project.ListContasBancariasProjectDTO;
+import com.dto.project.list.ListContasBancariasProjectDTO;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;

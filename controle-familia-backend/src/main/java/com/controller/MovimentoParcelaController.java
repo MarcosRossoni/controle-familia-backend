@@ -62,6 +62,7 @@ public class MovimentoParcelaController extends GenericController{
         movimento.setUsuario(Usuario.findById(1));
         movimento.setContaBancaria(ContaBancaria.findById(movimentoDTO.getContaBancaria().getIdContaBancaria()));
         movimento.setCategoria(Categoria.findById(movimentoDTO.getCategoria().getIdCategoria()));
+        movimento.setQtdTotalParcelas(movimentoDTO.getQtdParcelas());
         return movimento;
 
     }

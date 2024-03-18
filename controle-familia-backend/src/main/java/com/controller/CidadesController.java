@@ -1,6 +1,6 @@
 package com.controller;
 
-import com.dto.project.ListCidadesProjectDTO;
+import com.dto.project.list.ListCidadesProjectDTO;
 import com.orm.Cidade;
 import com.restclient.IbgeRestClient;
 import io.quarkus.panache.common.Sort;
