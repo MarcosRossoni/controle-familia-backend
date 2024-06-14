@@ -3,6 +3,7 @@ package com.endpoint;
 import com.controller.UsuarioController;
 import com.dto.UsuarioDTO;
 import com.dto.project.list.ListUsuarioProjectDTO;
+import com.endpoint.auth.NoSession;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
@@ -19,6 +20,7 @@ public class UsuarioEndpoint {
     UsuarioController usuarioController;
 
     @POST
+    @NoSession
     public Response cadastrarUsuario(UsuarioDTO usuarioDTO){
         UsuarioDTO usuario = usuarioController.cadastrarUsuario(usuarioDTO);
         return Response.ok(usuario).build();
