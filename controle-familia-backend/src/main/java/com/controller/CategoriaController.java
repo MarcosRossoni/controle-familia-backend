@@ -1,11 +1,12 @@
 package com.controller;
 
 import com.controller.converter.CategoriaConverter;
+import com.controller.session.Session;
+import com.controller.session.SessionModel;
 import com.dto.CategoriaDTO;
 import com.dto.project.list.ListCategoriaProjectDTO;
 import com.enumeration.TipoMovimento;
 import com.orm.Categoria;
-import com.orm.Usuario;
 import io.quarkus.panache.common.Sort;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
@@ -20,10 +21,13 @@ public class CategoriaController extends GenericController{
     @Inject
     CategoriaConverter categoriaConverter;
 
+    @Session
+    SessionModel userSession;
+
     public CategoriaDTO cadastroCategoria(CategoriaDTO categoriaDTO) {
 
         Categoria categoria = categoriaConverter.dtoToOrm(categoriaDTO);
-        categoria.setUsuario(Usuario.findById(1));
+        categoria.setUsuario(userSession.getUsuario());
         categoria.persist();
 
         return categoriaConverter.ormToDto(categoria);

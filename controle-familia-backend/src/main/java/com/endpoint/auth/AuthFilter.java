@@ -1,6 +1,6 @@
 package com.endpoint.auth;
 
-import com.controller.SessionHolder;
+import com.controller.session.SessionHolder;
 import com.controller.cache.SessionCache;
 import com.dao.AuthDAO;
 import com.dto.exception.ResponseErroDTO;
@@ -32,7 +32,7 @@ public class AuthFilter implements ContainerRequestFilter {
     @Override
     public void filter(ContainerRequestContext requestContext) throws IOException {
 
-        Locale.setDefault(new Locale("pt", "BR"));
+        Locale.setDefault(Locale.of("pt", "BR"));
 
         if (info.getResourceMethod().isAnnotationPresent(NoSession.class)) {
             return;

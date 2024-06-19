@@ -1,11 +1,12 @@
 package com.controller;
 
 import com.controller.converter.ContaBancariaConverter;
+import com.controller.session.Session;
+import com.controller.session.SessionModel;
 import com.dto.ContaBancariaDTO;
 import com.dto.project.list.ListContasBancariasProjectDTO;
 import com.enumeration.LogEnum;
 import com.orm.ContaBancaria;
-import com.orm.Usuario;
 import io.quarkus.panache.common.Sort;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
@@ -21,18 +22,21 @@ public class ContaBancariaController extends GenericController{
     @Inject
     ContaBancariaConverter contaBancariaConverter;
 
+    @Session
+    SessionModel userSession;
+
     public ContaBancariaDTO cadastrarContaBancaria(ContaBancariaDTO contaBancariaDTO){
 
         ContaBancaria contaBancaria = contaBancariaConverter.dtoToOrm(contaBancariaDTO);
         contaBancaria.setFgAtiva(true);
         contaBancaria.setDtCadastro(LocalDateTime.now());
         contaBancaria.setDtUltimaMovimentacao(LocalDateTime.now());
-        contaBancaria.setUsuarioCadastro(Usuario.findById(1));
-        contaBancaria.setUsuarioMovimentacao(Usuario.findById(1));
+        contaBancaria.setUsuarioCadastro(userSession.getUsuario());
+        contaBancaria.setUsuarioMovimentacao(userSession.getUsuario());
         contaBancaria.setVlSaldoAtual(contaBancaria.getVlSaldoIncial());
         contaBancaria.persist();
         registrarLog(
-                Usuario.findById(1),
+                userSession.getUsuario(),
                 "Criou conta bancaria " + contaBancaria.getIdContaBancaria().toString(),
                 LogEnum.CONTA_BANCARIA);
 
@@ -44,10 +48,10 @@ public class ContaBancariaController extends GenericController{
         ContaBancaria contaBancaria = ContaBancaria.findById(contaBancariaDTO.getIdContaBancaria());
         contaBancariaConverter.dtoToOrm(contaBancariaDTO, contaBancaria);
         contaBancaria.setDtUltimaMovimentacao(LocalDateTime.now());
-        contaBancaria.setUsuarioMovimentacao(Usuario.findById(1));
+        contaBancaria.setUsuarioMovimentacao(userSession.getUsuario());
         contaBancaria.persist();
         registrarLog(
-                Usuario.findById(1),
+                userSession.getUsuario(),
                 "Alterou conta bancaria " + contaBancaria.getIdContaBancaria().toString(),
                 LogEnum.CONTA_BANCARIA);
 

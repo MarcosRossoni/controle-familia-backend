@@ -1,6 +1,8 @@
 package com.controller;
 
 import com.controller.converter.MovimentoConverter;
+import com.controller.session.Session;
+import com.controller.session.SessionModel;
 import com.dao.MovimentoParcelaDAO;
 import com.dto.MovimentoDTO;
 import com.enumeration.LogEnum;
@@ -24,6 +26,9 @@ public class MovimentoParcelaController extends GenericController{
     @Inject
     MovimentoConverter movimentoConverter;
 
+    @Session
+    SessionModel userSession;
+
     public void gerarParcelas(MovimentoDTO movimentoDTO){
 
         BigDecimal vlParcela = movimentoDTO.getVlMovimento().divide(BigDecimal.valueOf(movimentoDTO.getQtdParcelas()));
@@ -38,7 +43,7 @@ public class MovimentoParcelaController extends GenericController{
         }
 
         registrarLog(
-                Usuario.findById(1),
+                userSession.getUsuario(),
                 "Adicionou movimento " + idMovimento.toString(),
                 LogEnum.MOVIMENTO);
 
@@ -59,7 +64,7 @@ public class MovimentoParcelaController extends GenericController{
         movimento.setDtVencimento(dtVencimento);
         movimento.setDtCadastro(LocalDateTime.now());
         movimento.setDtAlteracao(LocalDateTime.now());
-        movimento.setUsuario(Usuario.findById(1));
+        movimento.setUsuario(userSession.getUsuario());
         movimento.setContaBancaria(ContaBancaria.findById(movimentoDTO.getContaBancaria().getIdContaBancaria()));
         movimento.setCategoria(Categoria.findById(movimentoDTO.getCategoria().getIdCategoria()));
         movimento.setQtdTotalParcelas(movimentoDTO.getQtdParcelas());

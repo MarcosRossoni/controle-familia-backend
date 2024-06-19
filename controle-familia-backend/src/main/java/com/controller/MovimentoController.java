@@ -1,13 +1,13 @@
 package com.controller;
 
 import com.controller.converter.MovimentoConverter;
-import com.dto.project.list.ListMovimentoProjectDTO;
+import com.controller.session.Session;
+import com.controller.session.SessionModel;
 import com.dto.MovimentoDTO;
-import com.dto.project.projectdto.MovimentoProjectDTO;
+import com.dto.project.list.ListMovimentoProjectDTO;
 import com.enumeration.LogEnum;
 import com.enumeration.TipoMovimento;
 import com.orm.Movimento;
-import com.orm.Usuario;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
@@ -24,6 +24,9 @@ public class MovimentoController extends GenericController{
 
     @Inject
     MovimentoParcelaController movimentoParcelaController;
+
+    @Session
+    SessionModel userSession;
 
     public MovimentoDTO cadastroMovimento(MovimentoDTO movimentoDTO){
 
@@ -44,7 +47,7 @@ public class MovimentoController extends GenericController{
         movimento.setDtAlteracao(LocalDateTime.now());
         movimento.persist();
         registrarLog(
-                Usuario.findById(1),
+                userSession.getUsuario(),
                 "Alterou movimento " + movimento.getIdMovimento().toString(),
                 LogEnum.MOVIMENTO);
 
