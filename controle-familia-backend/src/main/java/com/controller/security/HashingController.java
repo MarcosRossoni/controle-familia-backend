@@ -12,14 +12,8 @@ import java.security.spec.KeySpec;
 
 public class HashingController {
 
-    private static final String SALT_TOKEN = "salt.token";
-
     public static String hashingSenha(String password, String salt){
         return PBKDF2(password, salt);
-    }
-
-    public static String hashingToken(String token){
-        return PBKDF2(token, SALT_TOKEN);
     }
 
     private static String PBKDF2(String password, String salt){
@@ -44,6 +38,15 @@ public class HashingController {
         }
 
         return usuario.getDsSenha().equals(PBKDF2(password, usuario.getDsSalt()));
+    }
+
+    public static boolean isEqualsTokenRefector(Usuario usuario, String token){
+
+        if(token == null || usuario.getDsSenha() == null){
+            return false;
+        }
+
+        return usuario.getDsTokenRecuperacao().equals(PBKDF2(token, usuario.getDsSalt()));
     }
 
 }
