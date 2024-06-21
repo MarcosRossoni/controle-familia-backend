@@ -4,10 +4,12 @@ import com.controller.email.EnviaEmailController;
 import com.orm.Usuario;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
+import jakarta.transaction.Transactional;
 
 import java.util.UUID;
 
 @ApplicationScoped
+@Transactional
 public class RecuperarSenhaController {
 
     @Inject
