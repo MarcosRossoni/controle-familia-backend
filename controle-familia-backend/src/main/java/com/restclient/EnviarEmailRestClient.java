@@ -16,6 +16,6 @@ public interface EnviarEmailRestClient {
 
     @POST
     @Path("/smtp/email")
-    JsonObject enviarEmail (@HeaderParam("api-key") String apiKey,
-                            BrevoEmailDTO brevoEmailDTO);
+    JsonObject enviarEmail(@HeaderParam("api-key") String apiKey,
+                           BrevoEmailDTO brevoEmailDTO);
 }

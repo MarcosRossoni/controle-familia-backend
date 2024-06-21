@@ -12,13 +12,13 @@ import java.security.spec.KeySpec;
 
 public class HashingController {
 
-    public static String hashingSenha(String password, String salt){
+    public static String hashingSenha(String password, String salt) {
         return PBKDF2(password, salt);
     }
 
-    private static String PBKDF2(String password, String salt){
+    private static String PBKDF2(String password, String salt) {
 
-        if (password == null || password.isBlank() || salt == null){
+        if (password == null || password.isBlank() || salt == null) {
             throw new BadRequestException();
         }
 
@@ -26,23 +26,23 @@ public class HashingController {
             final KeySpec spec = new PBEKeySpec(password.toCharArray(), salt.getBytes(), 65536, 512);
             final SecretKeyFactory factory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA512");
             return Hex.encodeHexString(factory.generateSecret(spec).getEncoded());
-        } catch (NoSuchAlgorithmException | InvalidKeySpecException e){
+        } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
             throw new BadRequestException(e.getMessage());
         }
     }
 
-    public static boolean isEquals(Usuario usuario, String password){
+    public static boolean isEquals(Usuario usuario, String password) {
 
-        if(password == null || usuario.getDsSenha() == null){
+        if (password == null || usuario.getDsSenha() == null) {
             return false;
         }
 
         return usuario.getDsSenha().equals(PBKDF2(password, usuario.getDsSalt()));
     }
 
-    public static boolean isEqualsTokenRefector(Usuario usuario, String token){
+    public static boolean isEqualsTokenRefector(Usuario usuario, String token) {
 
-        if(token == null || usuario.getDsSenha() == null){
+        if (token == null || usuario.getDsSenha() == null) {
             return false;
         }
 

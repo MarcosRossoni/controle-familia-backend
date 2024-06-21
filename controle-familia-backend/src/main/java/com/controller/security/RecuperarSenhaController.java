@@ -1,12 +1,14 @@
 package com.controller.security;
 
 import com.controller.email.EnviaEmailController;
+import com.orm.TokenRecuperaSenha;
 import com.orm.Usuario;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.BadRequestException;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @ApplicationScoped
@@ -25,29 +27,41 @@ public class RecuperarSenhaController {
         }
 
         String token = UUID.randomUUID().toString();
-        usuario.setDsTokenRecuperacao(HashingController.hashingSenha(token, usuario.getDsSalt()));
 
-        enviaEmailController.enviaEmail(token, usuario.getDsEmail());
+        TokenRecuperaSenha tokenRecuperaSenha = new TokenRecuperaSenha(
+                token,
+                LocalDateTime.now(),
+                LocalDateTime.now().plusMinutes(5),
+                true,
+                usuario
+        );
 
-        usuario.persist();
+        tokenRecuperaSenha.persist();
+
+        String dsLink = "http://localhost:9000/recuperar-senha/verifica-token?token=" + token;
+
+        enviaEmailController.enviaEmail(dsLink, usuario.getDsEmail());
 
     }
 
-    public void verificarTokenRecuperacao(String dsEmail, String dsToken) {
+    public void verificarTokenRecuperacao(String dsToken) {
 
-        Usuario usuario = Usuario.find("dsEmail = ?1", dsEmail).firstResult();
+        TokenRecuperaSenha tokenRecuperaSenha = TokenRecuperaSenha.find("dsToken = ?1", dsToken).firstResult();
 
-        if (usuario == null) {
-            return;
+        if (tokenRecuperaSenha == null) {
+            throw new BadRequestException("Nenhum token encontrado");
         }
 
-        boolean equalsTokenRefector = HashingController.isEqualsTokenRefector(usuario, dsToken);
-
-        if (!equalsTokenRefector) {
-            throw new BadRequestException("Token invalido");
+        if (!tokenRecuperaSenha.getFgAtivo()){
+            tokenRecuperaSenha.setFgAtivo(false);
+            throw new BadRequestException("Token inativo");
         }
 
-        usuario.setDsTokenRecuperacao(null);
-        usuario.persist();
+        if (LocalDateTime.now().isAfter(tokenRecuperaSenha.getDtExpiracao())){
+            tokenRecuperaSenha.setFgAtivo(false);
+            throw new BadRequestException("Token expirado");
+        }
+
+        tokenRecuperaSenha.setFgAtivo(false);
     }
 }
