@@ -5,6 +5,7 @@ import com.orm.Usuario;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
+import jakarta.ws.rs.BadRequestException;
 
 import java.util.UUID;
 
@@ -15,9 +16,9 @@ public class RecuperarSenhaController {
     @Inject
     EnviaEmailController enviaEmailController;
 
-    public void recuperarSenha(String email) {
+    public void recuperarSenha(String dsEmail) {
 
-        Usuario usuario = Usuario.find("dsEmail = ?1", email).firstResult();
+        Usuario usuario = Usuario.find("dsEmail = ?1", dsEmail).firstResult();
 
         if (usuario == null) {
             return;
@@ -30,5 +31,23 @@ public class RecuperarSenhaController {
 
         usuario.persist();
 
+    }
+
+    public void verificarTokenRecuperacao(String dsEmail, String dsToken) {
+
+        Usuario usuario = Usuario.find("dsEmail = ?1", dsEmail).firstResult();
+
+        if (usuario == null) {
+            return;
+        }
+
+        boolean equalsTokenRefector = HashingController.isEqualsTokenRefector(usuario, dsToken);
+
+        if (!equalsTokenRefector) {
+            throw new BadRequestException("Token invalido");
+        }
+
+        usuario.setDsTokenRecuperacao(null);
+        usuario.persist();
     }
 }
