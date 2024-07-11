@@ -2,6 +2,7 @@ package com.endpoint;
 
 import com.controller.CidadesController;
 import com.dto.project.list.ListCidadesProjectDTO;
+import com.endpoint.auth.NoSession;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
@@ -25,6 +26,7 @@ public class CidadesIbgeEndpoint {
 
     @GET
     @Path("buscar-cidade/{nome}")
+    @NoSession
     public Response buscarCidade(@PathParam("nome") String dsNome){
         List<ListCidadesProjectDTO> listCidades = cidadesController.autoCompleteCidade(dsNome);
         return Response.ok(listCidades).build();

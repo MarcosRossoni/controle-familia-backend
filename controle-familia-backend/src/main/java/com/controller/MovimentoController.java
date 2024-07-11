@@ -64,7 +64,7 @@ public class MovimentoController extends GenericController{
         return Movimento.find("SELECT m.idMovimento, m.nrParcela, m.qtdTotalParcelas, m.dsDescricao, m.vlMovimento, " +
                         "m.dtMovimento, m.dtVencimento, m.fgConciliarAutomatico, m.categoria.dsDescricao, m.categoria.dsCor, " +
                         "m.contaBancaria.dsDescricao, m.contaBancaria.dsBanco FROM Movimento m WHERE m.usuario.idUsuario = ?1",
-                        1)
+                        userSession.getUsuario().getIdUsuario().toString())
                 .project(ListMovimentoProjectDTO.class)
                 .list();
     }

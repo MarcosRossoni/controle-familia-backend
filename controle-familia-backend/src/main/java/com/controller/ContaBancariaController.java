@@ -64,14 +64,17 @@ public class ContaBancariaController extends GenericController{
     }
 
     public List<ListContasBancariasProjectDTO> findAll() {
-        return ContaBancaria.find("usuarioCadastro.idUsuario = 1", Sort.ascending("dsDescricao"))
+        return ContaBancaria.find("usuarioCadastro.idUsuario = ?1",
+                        Sort.ascending("dsDescricao"),
+                        userSession.getUsuario().getIdUsuario().toString())
                 .project(ListContasBancariasProjectDTO.class)
                 .list();
     }
 
     public List<ListContasBancariasProjectDTO> autoCompleteContaBancaria(String param){
-        return ContaBancaria.find("LOWER(dsDescricao) LIKE LOWER(?1) AND usuarioCadastro.idUsuario = 1 AND fgAtiva = true",
-                        Sort.ascending("dsDescricao"), "%" + param + "%")
+        return ContaBancaria.find("LOWER(dsDescricao) LIKE LOWER(?1) AND usuarioCadastro.idUsuario = ?2 AND fgAtiva = true",
+                        Sort.ascending("dsDescricao"), "%" + param + "%",
+                        userSession.getUsuario().getIdUsuario().toString())
                 .project(ListContasBancariasProjectDTO.class)
                 .list();
     }
