@@ -1,5 +1,6 @@
 package com.controller;
 
+import com.controller.converter.ContaBancariaConverter;
 import com.controller.converter.MovimentoConverter;
 import com.controller.session.Session;
 import com.controller.session.SessionModel;
@@ -7,7 +8,9 @@ import com.dto.MovimentoDTO;
 import com.dto.project.list.ListMovimentoProjectDTO;
 import com.enumeration.LogEnum;
 import com.enumeration.TipoMovimento;
+import com.orm.ContaBancaria;
 import com.orm.Movimento;
+import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
@@ -36,12 +39,16 @@ public class MovimentoController extends GenericController{
 
     public MovimentoDTO alterarMovimento(MovimentoDTO movimentoDTO){
 
-        Movimento movimento = Movimento.findById(movimentoDTO.getIdMovimento());
+        Movimento movimento = Movimento.find("idMovimento", movimentoDTO.getIdMovimento()).firstResult();
 
         movimentoConverter.dtoToOrm(movimentoDTO, movimento);
 
         if (movimento.getFgTipoMovimento().equals(TipoMovimento.DESPESA)){
             movimento.setVlMovimento(movimentoDTO.getVlMovimento().negate());
+        }
+
+        if (!movimentoDTO.getContaBancaria().getIdContaBancaria().equals(movimento.getContaBancaria().getIdContaBancaria())) {
+            movimento.setContaBancaria(ContaBancaria.findById(movimentoDTO.getContaBancaria().getIdContaBancaria()));
         }
 
         movimento.setDtAlteracao(LocalDateTime.now());

@@ -4,8 +4,6 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import org.hibernate.validator.constraints.Length;
 
-import java.time.LocalDateTime;
-
 @Data
 public class UsuarioDTO {
 
