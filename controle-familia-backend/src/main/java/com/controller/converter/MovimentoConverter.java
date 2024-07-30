@@ -37,6 +37,7 @@ public class MovimentoConverter extends GenericConverter<Movimento, MovimentoDTO
         movimentoDTO.setUsuario(usuarioConverter.ormToDto(movimento.getUsuario()));
         movimentoDTO.setContaBancaria(contaBancariaConverter.ormToDto(movimento.getContaBancaria()));
         movimentoDTO.setFgTipoMovimento(movimento.getFgTipoMovimento().ordinal());
+        movimentoDTO.setFgSituacaoMovimento(movimento.getFgSituacaoMovimento().ordinal());
         movimentoDTO.setDtMovimento(movimento.getDtMovimento().toString());
         movimentoDTO.setDtCadastro(movimento.getDtCadastro().toString());
         movimentoDTO.setDtAlteracao(movimento.getDtAlteracao().toString());
@@ -57,6 +58,7 @@ public class MovimentoConverter extends GenericConverter<Movimento, MovimentoDTO
 
     @Override
     protected String[] ignoreProperties() {
-        return new String[]{"usuario", "fgTipoMovimento", "dtMovimento", "dtCadastro", "dtAlteracao", "contaBancaria"};
+        return new String[]{"usuario", "fgTipoMovimento", "dtMovimento", "dtCadastro", "dtAlteracao", "contaBancaria",
+                "fgSituacaoMovimento"};
     }
 }

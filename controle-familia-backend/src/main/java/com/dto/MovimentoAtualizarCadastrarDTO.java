@@ -5,7 +5,7 @@ import lombok.Data;
 import java.math.BigDecimal;
 
 @Data
-public class MovimentoDTO {
+public class MovimentoAtualizarCadastrarDTO {
 
     private Long idMovimento;
 
@@ -21,19 +21,15 @@ public class MovimentoDTO {
 
     private String dtVencimento;
 
-    private String dtCadastro;
-
-    private String dtAlteracao;
-
     private Boolean fgConciliarAutomatico;
+
+    private Boolean fgValorParcela;
 
     private Integer fgTipoMovimento;
 
     private Integer fgSituacaoMovimento;
 
     private CategoriaDTO categoria;
-
-    private UsuarioDTO usuario;
 
     private ContaBancariaDTO contaBancaria;
 }

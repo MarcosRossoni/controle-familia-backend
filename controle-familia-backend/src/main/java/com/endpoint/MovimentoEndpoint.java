@@ -1,7 +1,10 @@
 package com.endpoint;
 
 import com.controller.MovimentoController;
+import com.dto.MovimentoAtualizarCadastrarDTO;
 import com.dto.MovimentoDTO;
+import com.dto.PaginacaoDTO;
+import com.dto.filter.MovimentoFilterDTO;
 import com.dto.project.list.ListMovimentoProjectDTO;
 import com.dto.project.projectdto.MovimentoProjectDTO;
 import jakarta.inject.Inject;
@@ -20,13 +23,13 @@ public class MovimentoEndpoint {
     MovimentoController movimentoController;
 
     @POST
-    public Response cadastroMovimento(MovimentoDTO movimentoDTO){
+    public Response cadastroMovimento(MovimentoAtualizarCadastrarDTO movimentoDTO){
         MovimentoDTO movimento = movimentoController.cadastroMovimento(movimentoDTO);
         return Response.ok(movimento).build();
     }
 
     @PUT
-    public Response alterarMovimento(MovimentoDTO movimentoDTO){
+    public Response alterarMovimento(MovimentoAtualizarCadastrarDTO movimentoDTO){
         MovimentoDTO movimento = movimentoController.alterarMovimento(movimentoDTO);
         return Response.ok(movimento).build();
     }
@@ -40,8 +43,8 @@ public class MovimentoEndpoint {
 
     @GET
     @Path("/list-movimento")
-    public Response listarMovimentos(){
-        List<ListMovimentoProjectDTO> listMovimento = movimentoController.listarMovimentos();
+    public Response listarMovimentos(MovimentoFilterDTO movimentoFilterDTO){
+        PaginacaoDTO listMovimento = movimentoController.listarMovimentos(movimentoFilterDTO);
         return Response.ok(listMovimento).build();
     }
 

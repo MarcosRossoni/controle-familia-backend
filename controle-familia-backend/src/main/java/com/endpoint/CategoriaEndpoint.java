@@ -2,7 +2,7 @@ package com.endpoint;
 
 import com.controller.CategoriaController;
 import com.dto.CategoriaDTO;
-import com.dto.CategoriaFilterDTO;
+import com.dto.filter.CategoriaFilterDTO;
 import com.dto.PaginacaoDTO;
 import com.dto.project.list.ListCategoriaProjectDTO;
 import jakarta.inject.Inject;

@@ -19,6 +19,12 @@ public class PaginacaoDTO {
     @QueryParam("totalItens")
     private int totalItens;
 
+    @QueryParam("dtInicio")
+    private String dtInicio;
+
+    @QueryParam("dtFim")
+    private String dtFim;
+
     private Iterable<?> data;
 
     public PaginacaoDTO(PanacheQuery<?> result, PaginacaoDTO paginacaoDTO) {
