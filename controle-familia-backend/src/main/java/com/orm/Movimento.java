@@ -46,6 +46,9 @@ public class Movimento extends PanacheEntityBase {
     @Column(name = "dt_alteracao", nullable = false)
     private LocalDateTime dtAlteracao;
 
+    @Column(name = "dt_baixa")
+    private LocalDateTime dtBaixa;
+
     @Column(name = "qtd_total_parcelas", nullable = false)
     private Integer qtdTotalParcelas;
 

@@ -5,14 +5,10 @@ import com.dto.MovimentoAtualizarCadastrarDTO;
 import com.dto.MovimentoDTO;
 import com.dto.PaginacaoDTO;
 import com.dto.filter.MovimentoFilterDTO;
-import com.dto.project.list.ListMovimentoProjectDTO;
-import com.dto.project.projectdto.MovimentoProjectDTO;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
-
-import java.util.List;
 
 @Path("/movimento")
 @Consumes(MediaType.APPLICATION_JSON)
@@ -34,10 +30,17 @@ public class MovimentoEndpoint {
         return Response.ok(movimento).build();
     }
 
-    @GET
+    @DELETE
     @Path("/{idMovimento}")
-    public Response findById(@PathParam("idMovimento") Long idMovimento) {
-        MovimentoDTO movimentoDTO = movimentoController.findByIdMovimento(idMovimento);
+    public Response excluirMovimento(@PathParam("idMovimento") Long idMovimento){
+        movimentoController.deletMovimento(idMovimento);
+        return Response.ok().build();
+    }
+
+    @GET
+    @Path("/{idMovimento}/{nrParcela}")
+    public Response findById(@PathParam("idMovimento") Long idMovimento, @PathParam("nrParcela") Long nrParcela) {
+        MovimentoDTO movimentoDTO = movimentoController.findByIdMovimento(idMovimento, nrParcela);
         return Response.ok(movimentoDTO).build();
     }
 

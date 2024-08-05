@@ -8,16 +8,19 @@ import com.dto.MovimentoDTO;
 import com.dto.PaginacaoDTO;
 import com.dto.filter.MovimentoFilterDTO;
 import com.dto.project.list.ListMovimentoProjectDTO;
-import com.enumeration.LogEnum;
-import com.enumeration.TipoMovimento;
-import com.orm.ContaBancaria;
+import com.enumeration.SituacaoMovimento;
+import com.exception.BadRequestException;
 import com.orm.Movimento;
 import io.quarkus.hibernate.orm.panache.PanacheQuery;
+import io.quarkus.panache.common.Sort;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
+import jakarta.persistence.OrderBy;
+import jakarta.persistence.criteria.Order;
 import jakarta.transaction.Transactional;
 
-import java.time.LocalDateTime;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 @ApplicationScoped
 @Transactional
@@ -40,35 +43,60 @@ public class MovimentoController extends GenericController{
 
     public MovimentoDTO alterarMovimento(MovimentoAtualizarCadastrarDTO movimentoDTO){
 
-        Movimento movimento = Movimento.find("idMovimento", movimentoDTO.getIdMovimento()).firstResult();
+        Movimento movimento = Movimento.find("idMovimento = ?1 AND nrParcela = ?2",
+                movimentoDTO.getIdMovimento(), movimentoDTO.getNrParcela())
+                .firstResult();
 
-        if (movimento.getFgTipoMovimento().equals(TipoMovimento.DESPESA)){
-            movimento.setVlMovimento(movimentoDTO.getVlMovimento().negate());
+        if (movimento.getFgSituacaoMovimento().equals(SituacaoMovimento.LIQUIDADO) &&
+                movimentoDTO.getFgSituacaoMovimento().equals(SituacaoMovimento.LIQUIDADO.ordinal())) {
+            throw new BadRequestException("Situação liquidado não pode ser alterada.");
         }
 
-        if (!movimentoDTO.getContaBancaria().getIdContaBancaria().equals(movimento.getContaBancaria().getIdContaBancaria())) {
-            movimento.setContaBancaria(ContaBancaria.findById(movimentoDTO.getContaBancaria().getIdContaBancaria()));
-        }
+        movimentoParcelaController.alterarParcela(movimentoDTO, movimento);
+        return null;
+    }
 
-        movimento.setDtAlteracao(LocalDateTime.now());
-        movimento.persist();
-        registrarLog(
-                userSession.getUsuario(),
-                "Alterou movimento " + movimento.getIdMovimento().toString(),
-                LogEnum.MOVIMENTO);
+    public MovimentoDTO findByIdMovimento(Long idMovimento, Long nrParcela){
 
+        Movimento movimento = Movimento.find("idMovimento = ?1 AND nrParcela = ?2", idMovimento, nrParcela)
+                .firstResult();
         return movimentoConverter.ormToDto(movimento);
     }
 
-    public MovimentoDTO findByIdMovimento(Long idMovimento){
-        Movimento movimento = Movimento.find("idMovimento = ?1", idMovimento)
-                .firstResult();
-        return movimentoConverter.ormToDto(movimento);
+    public void deletMovimento(Long idMovimento){
+        long qtdMovimentoLiquidado = Movimento.find("idMovimento = ?1 AND fgSituacaoMovimento = ?2",
+                idMovimento, SituacaoMovimento.LIQUIDADO)
+                .count();
+
+        if (qtdMovimentoLiquidado > 0) {
+            throw new BadRequestException("Existe parcelas do movimento que estão liquidadas, não pode ser deletado.");
+        }
+
+        Movimento.delete("idMovimento = ?1", idMovimento);
     }
 
     public PaginacaoDTO listarMovimentos(MovimentoFilterDTO movimentoFilterDTO) {
 
         String dsQuery;
+
+        String dsWhere = "WHERE m.usuario.idUsuario = :idUsuario ";
+
+        Map<String, Object> parametros = new LinkedHashMap<>();
+        parametros.put("idUsuario", userSession.getUsuario().getIdUsuario());
+
+        if (movimentoFilterDTO.getDtInicio() != null) {
+            dsWhere += " AND (cast(m.dtVencimento AS date) BETWEEN cast(:dtInicio AS date) AND cast(:dtFim AS date))";
+            parametros.put("dtInicio", movimentoFilterDTO.getDtInicio());
+            parametros.put("dtFim", movimentoFilterDTO.getDtFim());
+        }
+        if (movimentoFilterDTO.getIdCategoria() != null) {
+            dsWhere += " AND m.categoria.idCategoria = :idCategoria";
+            parametros.put("idCategoria", movimentoFilterDTO.getIdCategoria());
+        }
+        if (movimentoFilterDTO.getFgTipoMovimento() != null) {
+            dsWhere += "AND m.fgTipoMovimento = :fgTipoMovimento";
+            parametros.put("fgTipoMovimento", movimentoFilterDTO.getFgTipoMovimento());
+        }
 
         String dsSelect = """
                 SELECT m.idMovimento, m.nrParcela, m.qtdTotalParcelas, m.dsDescricao, m.vlMovimento,
@@ -77,31 +105,15 @@ public class MovimentoController extends GenericController{
                 """;
 
         String dsFrom = "FROM Movimento m ";
-        String dsWhere = getDsWhere(movimentoFilterDTO);
 
         dsQuery = dsSelect + dsFrom + dsWhere;
 
-        PanacheQuery<ListMovimentoProjectDTO> listPaginacao = Movimento.find(dsQuery,
-                        userSession.getUsuario().getIdUsuario().toString())
+        Sort sort = Sort.ascending("dtVencimento");
+
+        PanacheQuery<ListMovimentoProjectDTO> listPaginacao = Movimento
+                .find(dsQuery, sort, parametros)
                 .project(ListMovimentoProjectDTO.class);
+
         return new PaginacaoDTO(listPaginacao, movimentoFilterDTO);
-    }
-
-    private static String getDsWhere(MovimentoFilterDTO movimentoFilterDTO) {
-        String dsWhere = "WHERE m.usuario.idUsuario = ?1";
-
-        if (movimentoFilterDTO.getDtInicio() != null) {
-            dsWhere += (" AND (cast(m.dtVencimento AS date) BETWEEN cast('#1' AS date) AND cast('#2' AS date))")
-                    .replace("#1", movimentoFilterDTO.getDtInicio())
-                    .replace("#2", movimentoFilterDTO.getDtFim());
-        }
-        if (movimentoFilterDTO.getIdCategoria() != null) {
-            dsWhere += (" AND m.categoria.idCategoria = #1")
-                    .replace("#1", movimentoFilterDTO.getIdCategoria().toString());
-        }
-        if (movimentoFilterDTO.getFgTipoMovimento() != null) {
-            dsWhere += "AND m.fgTipoMovimento = " + movimentoFilterDTO.getFgTipoMovimento();
-        }
-        return dsWhere;
     }
 }
