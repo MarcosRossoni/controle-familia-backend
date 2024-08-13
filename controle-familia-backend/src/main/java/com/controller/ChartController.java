@@ -19,7 +19,7 @@ public class ChartController extends GenericController{
     ChartDAO chartDAO;
 
     public JSONArray buscarCharts() {
-        LocalDate today = LocalDate.now().withMonth(7);
+        LocalDate today = LocalDate.now().withMonth(LocalDate.now().getMonthValue());
         YearMonth anoMes = YearMonth.of(today.getYear(), today.getMonth().getValue());
         LocalDate dtInicial = anoMes.atDay(1);
         LocalDate dtFinal = anoMes.atEndOfMonth();
