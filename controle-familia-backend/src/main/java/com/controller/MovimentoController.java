@@ -15,8 +15,6 @@ import io.quarkus.hibernate.orm.panache.PanacheQuery;
 import io.quarkus.panache.common.Sort;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
-import jakarta.persistence.OrderBy;
-import jakarta.persistence.criteria.Order;
 import jakarta.transaction.Transactional;
 
 import java.util.LinkedHashMap;
