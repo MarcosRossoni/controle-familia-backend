@@ -3,6 +3,7 @@ package com.controller.security;
 import com.controller.email.EnviaEmailController;
 import com.orm.TokenRecuperaSenha;
 import com.orm.Usuario;
+import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
@@ -38,13 +39,13 @@ public class RecuperarSenhaController {
 
         tokenRecuperaSenha.persist();
 
-        String dsLink = "http://localhost:9000/recuperar-senha/verifica-token?token=" + token;
+        String dsLink = "http://localhost:5173/redefinir-senha?token=" + token;
 
-        enviaEmailController.enviaEmail(dsLink, usuario.getDsEmail());
+        enviaEmailController.enviaEmail(dsLink, usuario.getDsEmail(), usuario.getDsNome());
 
     }
 
-    public void verificarTokenRecuperacao(String dsToken) {
+    public void verificarTokenRecuperacao(String dsToken, String dsSenha) {
 
         TokenRecuperaSenha tokenRecuperaSenha = TokenRecuperaSenha.find("dsToken = ?1", dsToken).firstResult();
 
@@ -61,6 +62,13 @@ public class RecuperarSenhaController {
             tokenRecuperaSenha.setFgAtivo(false);
             throw new BadRequestException("Token expirado");
         }
+
+        Usuario usuario = Usuario.findById(tokenRecuperaSenha.getUsuario().getIdUsuario());
+        String newSenha = HashingController.hashingSenha(
+                dsSenha,
+                usuario.getDsSalt());
+        usuario.setDsSenha(newSenha);
+        usuario.persist();
 
         tokenRecuperaSenha.setFgAtivo(false);
     }

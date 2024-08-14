@@ -25,8 +25,8 @@ public class RecuperarSenhaEndpoint {
     @GET
     @Path("/verifica-token")
     @NoSession
-    public Response verificaTokenResset(@QueryParam("token") String dsToken) {
-        recuperarSenhaController.verificarTokenRecuperacao(dsToken);
+    public Response verificaTokenResset(@QueryParam("token") String dsToken, @QueryParam("senha") String dsSenha) {
+        recuperarSenhaController.verificarTokenRecuperacao(dsToken, dsSenha);
         return Response.ok().build();
     }
 }
