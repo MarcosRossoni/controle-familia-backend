@@ -18,14 +18,14 @@ import java.util.UUID;
 
 @ApplicationScoped
 @Transactional
-public class UsuarioController extends GenericController{
+public class UsuarioController extends GenericController {
 
     @Inject
     UsuarioConverter usuarioConverter;
 
-    public UsuarioDTO cadastrarUsuario(UsuarioDTO usuarioDTO){
+    public UsuarioDTO cadastrarUsuario(UsuarioDTO usuarioDTO) {
 
-        if (Usuario.find("dsEmail", usuarioDTO.getDsEmail()).firstResult() != null){
+        if (Usuario.find("dsEmail", usuarioDTO.getDsEmail()).firstResult() != null) {
             throw new BadRequestException("usuario.existe");
         }
 
@@ -42,7 +42,7 @@ public class UsuarioController extends GenericController{
         return usuarioConverter.ormToDto(usuario);
     }
 
-    public UsuarioDTO alteracaoUsuario(UsuarioDTO usuarioDTO){
+    public UsuarioDTO alteracaoUsuario(UsuarioDTO usuarioDTO) {
 
         Usuario usuario = Usuario.findById(usuarioDTO.getIdUsuario());
 

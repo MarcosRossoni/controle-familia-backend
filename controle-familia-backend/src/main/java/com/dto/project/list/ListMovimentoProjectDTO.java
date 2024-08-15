@@ -1,5 +1,6 @@
 package com.dto.project.list;
 
+import com.enumeration.SituacaoMovimento;
 import io.quarkus.runtime.annotations.RegisterForReflection;
 import lombok.Data;
 
@@ -34,9 +35,12 @@ public class ListMovimentoProjectDTO {
 
     private String dsBanco;
 
+    private Integer fgSituacaoMovimento;
+
     public ListMovimentoProjectDTO(Long idMovimento, Integer nrParcela, Integer qtdParcelas, String dsDescricao,
                                    BigDecimal vlMovimento, LocalDate dtMovimento, LocalDate dtVencimento, Boolean fgConciliarAutomatico,
-                                   String dsCategoria, String dsCor, String dsContaBancaria, String dsBanco) {
+                                   String dsCategoria, String dsCor, String dsContaBancaria, String dsBanco,
+                                   SituacaoMovimento fgSituacaoMovimento) {
         this.idMovimento = idMovimento;
         this.nrParcela = nrParcela;
         this.qtdParcelas = qtdParcelas;
@@ -49,5 +53,6 @@ public class ListMovimentoProjectDTO {
         this.dsCor = dsCor;
         this.dsContaBancaria = dsContaBancaria;
         this.dsBanco = dsBanco;
+        this.fgSituacaoMovimento = fgSituacaoMovimento.ordinal();
     }
 }

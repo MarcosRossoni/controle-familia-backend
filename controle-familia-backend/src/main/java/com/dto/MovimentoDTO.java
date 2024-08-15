@@ -29,6 +29,8 @@ public class MovimentoDTO {
 
     private Integer fgTipoMovimento;
 
+    private Integer fgSituacaoMovimento;
+
     private CategoriaDTO categoria;
 
     private UsuarioDTO usuario;

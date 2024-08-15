@@ -2,6 +2,8 @@ package com.endpoint;
 
 import com.controller.CategoriaController;
 import com.dto.CategoriaDTO;
+import com.dto.filter.CategoriaFilterDTO;
+import com.dto.PaginacaoDTO;
 import com.dto.project.list.ListCategoriaProjectDTO;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
@@ -24,11 +26,31 @@ public class CategoriaEndpoint {
         return Response.ok(categoria).build();
     }
 
+    @PUT
+    public Response updateCategoria(CategoriaDTO categoriaDTO){
+        CategoriaDTO categoria = categoriaController.atualizarCategoria(categoriaDTO);
+        return Response.ok(categoria).build();
+    }
+
+    @GET
+    @Path("/{id}")
+    public Response findById(@PathParam("id") Long id){
+        CategoriaDTO categoria = categoriaController.findById(id);
+        return Response.ok(categoria).build();
+    }
+
     @GET
     @Path("buscar-categoria/{nome}/{fgTipo}")
     public Response autoCompleteCategoria(@PathParam("nome") String dsNome, @PathParam("fgTipo") Integer fgTipo){
         List<ListCategoriaProjectDTO> list = categoriaController.autoCompleteCategoria(dsNome, fgTipo);
         return Response.ok(list).build();
+    }
+
+    @GET
+    @Path("paginacao-categoria")
+    public Response listPaginacao(CategoriaFilterDTO categoriaFilterDTO) {
+        PaginacaoDTO paginacaoDTO = categoriaController.listCategoriaPaginacao(categoriaFilterDTO);
+        return Response.ok(paginacaoDTO).build();
     }
 
 }

@@ -65,6 +65,9 @@ public class Usuario extends PanacheEntityBase {
     @Column(name = "ds_complemento", length = 200)
     private String dsComplemento;
 
+    @Column(name = "ds_token_recuperacao", length = 200)
+    private String dsTokenRecuperacao;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_cidade", nullable = false)
     private Cidade cidade;

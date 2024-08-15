@@ -1,5 +1,6 @@
 package com.orm;
 
+import com.enumeration.SituacaoMovimento;
 import com.enumeration.TipoMovimento;
 import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 import jakarta.persistence.*;
@@ -45,8 +46,14 @@ public class Movimento extends PanacheEntityBase {
     @Column(name = "dt_alteracao", nullable = false)
     private LocalDateTime dtAlteracao;
 
+    @Column(name = "dt_baixa")
+    private LocalDateTime dtBaixa;
+
     @Column(name = "qtd_total_parcelas", nullable = false)
     private Integer qtdTotalParcelas;
+
+    @Column(name = "vl_total_movimento", nullable = false)
+    private BigDecimal vlTotalMovimento;
 
     @Basic
     @Convert(converter = TrueFalseConverter.class)
@@ -56,6 +63,10 @@ public class Movimento extends PanacheEntityBase {
     @Enumerated(EnumType.ORDINAL)
     @Column(name = "fg_tipo_movimento", nullable = false)
     private TipoMovimento fgTipoMovimento;
+
+    @Enumerated(EnumType.ORDINAL)
+    @Column(name = "fg_situacao_movimento", nullable = false)
+    private SituacaoMovimento fgSituacaoMovimento;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_usuario", nullable = false)
