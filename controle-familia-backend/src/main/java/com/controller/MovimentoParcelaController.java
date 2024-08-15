@@ -76,6 +76,7 @@ public class MovimentoParcelaController extends GenericController{
         List<Movimento> listMovimento = Movimento.find("idMovimento = ?1 AND nrParcela != ?2",
                 movimentoDTO.getIdMovimento(), movimentoDTO.getNrParcela())
                 .list();
+        ContaBancaria contaBancaria = ContaBancaria.findById(movimentoDTO.getContaBancaria().getIdContaBancaria());
 
         if (movimentoDTO.getFgConciliarAutomatico().equals(movimento.getFgConciliarAutomatico())) {
             movimento.setFgConciliarAutomatico(movimentoDTO.getFgConciliarAutomatico());
@@ -88,6 +89,7 @@ public class MovimentoParcelaController extends GenericController{
         if (movimentoDTO.getFgSituacaoMovimento().equals(SituacaoMovimento.LIQUIDADO.ordinal())) {
             movimento.setFgSituacaoMovimento(SituacaoMovimento.LIQUIDADO);
             movimento.setDtBaixa(LocalDateTime.now());
+            ajusteSaldoBanco(contaBancaria, movimentoDTO.getVlMovimento(), movimento.getFgTipoMovimento());
             dsMensagemLog = dsMensagemLog.concat(", alterou situacao do movimento");
         }
 
@@ -95,6 +97,10 @@ public class MovimentoParcelaController extends GenericController{
                 movimento.getFgSituacaoMovimento().equals(SituacaoMovimento.LIQUIDADO)) {
             movimento.setFgSituacaoMovimento(SituacaoMovimento.ABERTO);
             movimento.setDtBaixa(null);
+            ajusteSaldoBanco(contaBancaria, movimento.getVlMovimento(),
+                    movimento.getFgTipoMovimento().equals(TipoMovimento.RECEITA) ?
+                            TipoMovimento.DESPESA :
+                            TipoMovimento.RECEITA);
             dsMensagemLog = dsMensagemLog.concat(", alterou situacao do movimento");
         }
 
@@ -107,7 +113,6 @@ public class MovimentoParcelaController extends GenericController{
         }
 
         if (!movimentoDTO.getContaBancaria().getIdContaBancaria().equals(movimento.getContaBancaria().getIdContaBancaria())) {
-            ContaBancaria contaBancaria = ContaBancaria.findById(movimentoDTO.getIdMovimento());
             movimento.setContaBancaria(contaBancaria);
             for (Movimento movimentoAlterados : listMovimento) {
                 movimentoAlterados.setContaBancaria(contaBancaria);
@@ -165,7 +170,6 @@ public class MovimentoParcelaController extends GenericController{
                 dsMensagemLog,
                 LogEnum.MOVIMENTO
         );
-
     }
 
     //---
@@ -182,6 +186,7 @@ public class MovimentoParcelaController extends GenericController{
         if (movimentoDTO.getFgSituacaoMovimento().equals(SituacaoMovimento.LIQUIDADO.ordinal()) &&
                 dtVencimento.isBefore(LocalDate.now())) {
             movimento.setFgSituacaoMovimento(SituacaoMovimento.LIQUIDADO);
+            ajusteSaldoBanco(contaBancaria, movimentoDTO.getVlMovimento(), TipoMovimento.values()[movimentoDTO.getFgTipoMovimento()]);
         } else {
             movimento.setFgSituacaoMovimento(SituacaoMovimento.ABERTO);
         }
@@ -198,5 +203,17 @@ public class MovimentoParcelaController extends GenericController{
         movimento.setContaBancaria(contaBancaria);
         movimento.setCategoria(categoria);
 
+    }
+
+    private void ajusteSaldoBanco(ContaBancaria contaBancaria, BigDecimal vlMovimento, TipoMovimento fgTipoMovimento) {
+        if (fgTipoMovimento.equals(TipoMovimento.DESPESA)) {
+            BigDecimal vlAtt = contaBancaria.getVlSaldoAtual().subtract(vlMovimento);
+            contaBancaria.setVlSaldoAtual(vlAtt);
+        }
+        if (fgTipoMovimento.equals(TipoMovimento.RECEITA)) {
+            BigDecimal vlAtt = contaBancaria.getVlSaldoAtual().add(vlMovimento);
+            contaBancaria.setVlSaldoAtual(vlAtt);
+        }
+        contaBancaria.persist();
     }
 }
