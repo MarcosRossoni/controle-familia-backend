@@ -8,6 +8,7 @@ import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.BadRequestException;
+import org.eclipse.microprofile.config.inject.ConfigProperty;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -18,6 +19,9 @@ public class RecuperarSenhaController {
 
     @Inject
     EnviaEmailController enviaEmailController;
+
+    @ConfigProperty(name = "URL_RECUPERAR_SENHA")
+    String URL_RECUPERAR_SENHA;
 
     public void recuperarSenha(String dsEmail) {
 
@@ -39,7 +43,7 @@ public class RecuperarSenhaController {
 
         tokenRecuperaSenha.persist();
 
-        String dsLink = "http://localhost:5173/redefinir-senha?token=" + token;
+        String dsLink = URL_RECUPERAR_SENHA + token;
 
         enviaEmailController.enviaEmail(dsLink, usuario.getDsEmail(), usuario.getDsNome());
 
@@ -55,11 +59,13 @@ public class RecuperarSenhaController {
 
         if (!tokenRecuperaSenha.getFgAtivo()){
             tokenRecuperaSenha.setFgAtivo(false);
+            tokenRecuperaSenha.persist();
             throw new BadRequestException("Token inativo");
         }
 
         if (LocalDateTime.now().isAfter(tokenRecuperaSenha.getDtExpiracao())){
             tokenRecuperaSenha.setFgAtivo(false);
+            tokenRecuperaSenha.persist();
             throw new BadRequestException("Token expirado");
         }
 
@@ -71,5 +77,6 @@ public class RecuperarSenhaController {
         usuario.persist();
 
         tokenRecuperaSenha.setFgAtivo(false);
+        tokenRecuperaSenha.persist();
     }
 }

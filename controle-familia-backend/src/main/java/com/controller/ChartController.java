@@ -1,5 +1,7 @@
 package com.controller;
 
+import com.controller.session.Session;
+import com.controller.session.SessionModel;
 import com.dao.ChartDAO;
 import com.orm.Categoria;
 import jakarta.enterprise.context.ApplicationScoped;
@@ -18,6 +20,9 @@ public class ChartController extends GenericController{
     @Inject
     ChartDAO chartDAO;
 
+    @Session
+    SessionModel userSession;
+
     public JSONArray buscarCharts() {
         LocalDate today = LocalDate.now().withMonth(LocalDate.now().getMonthValue());
         YearMonth anoMes = YearMonth.of(today.getYear(), today.getMonth().getValue());
@@ -32,10 +37,11 @@ public class ChartController extends GenericController{
     //---
 
     private void buscarChartCategorias(LocalDate dtInicial, LocalDate dtFinal, JSONArray listCharts) {
-        List<Categoria> listCategorias = Categoria.findAll().list();
+        Long idUsuario = userSession.getUsuario().getIdUsuario();
+        List<Categoria> listCategorias = Categoria.find("usuario.idUsuario=?1", idUsuario).list();
 
         for (Categoria categoria : listCategorias) {
-            JSONArray objects = chartDAO.buscarTotalCategoria(dtInicial, dtFinal, categoria.getIdCategoria());
+            JSONArray objects = chartDAO.buscarTotalCategoria(dtInicial, dtFinal, categoria.getIdCategoria(), idUsuario);
             JSONArray labels = new JSONArray();
             JSONArray values = new JSONArray();
             JSONObject data = new JSONObject();
@@ -74,7 +80,7 @@ public class ChartController extends GenericController{
     }
 
     private void buscarChartCategoriaGeral(LocalDate dtInicial, LocalDate dtFinal, JSONArray listCharts) {
-        JSONArray objects = chartDAO.buscarTotalAgrupadoCategoria(dtInicial, dtFinal);
+        JSONArray objects = chartDAO.buscarTotalAgrupadoCategoria(dtInicial, dtFinal, userSession.getUsuario().getIdUsuario());
         JSONObject graficData = new JSONObject();
         JSONArray dataSets = new JSONArray();
         JSONObject data = new JSONObject();

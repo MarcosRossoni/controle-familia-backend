@@ -1,6 +1,7 @@
 # controle-familia-backend
 
 # Buildar Projeto
+Verificar no DockerFile se a versão da JDK esta equiparada com a versao do projeto  
 mvn package -DskipTests=true
 
 # Gerar Imagem Docker
