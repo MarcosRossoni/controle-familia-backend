@@ -8,6 +8,7 @@ import org.apache.commons.io.IOUtils;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 
 @ApplicationScoped
@@ -28,12 +29,12 @@ public class EnviaEmailController {
 
     private String layoutEmail() {
 
-        File fileHtml = new File("src/main/resources/templates/template-recuperar-senha.html");
-
         try {
-            FileInputStream fileInputStream = new FileInputStream(fileHtml);
-            String fileStrig = IOUtils.toString(fileInputStream, StandardCharsets.UTF_8);
-            fileInputStream.close();
+            InputStream inputStream = Thread.currentThread()
+                    .getContextClassLoader()
+                    .getResourceAsStream("templates/template-recuperar-senha.html");
+            String fileStrig = IOUtils.toString(inputStream, StandardCharsets.UTF_8);
+            inputStream.close();
             return fileStrig;
         } catch (Exception e) {
             throw new RuntimeException(e);

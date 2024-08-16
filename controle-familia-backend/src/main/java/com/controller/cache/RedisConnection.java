@@ -12,12 +12,26 @@ public class RedisConnection {
     @ConfigProperty(name = "REDIS_URL")
     String URL_REDIS_CONNECTION;
 
+    @ConfigProperty(name = "REDIS_PASSWORD")
+    String PASSWORD_REDIS_CONNECTION;
+
+    @ConfigProperty(name = "REDIS_PORT")
+    Integer PORT_REDIS_CONNECTION;
+
+    @ConfigProperty(name = "REDIS_USER")
+    String USERNAME_REDIS_CONNECTION;
+
     public static JedisPool jedisPool;
 
     @Startup
     public void initializeConnection() {
         final JedisPoolConfig config = buildJedisPoolConfig();
-        jedisPool = new JedisPool(config, URL_REDIS_CONNECTION, 6379);
+        if (PASSWORD_REDIS_CONNECTION.equals("123")){
+            jedisPool = new JedisPool(config, URL_REDIS_CONNECTION, PORT_REDIS_CONNECTION);
+        } else {
+            jedisPool = new JedisPool(config, URL_REDIS_CONNECTION, PORT_REDIS_CONNECTION,
+                    USERNAME_REDIS_CONNECTION, PASSWORD_REDIS_CONNECTION);
+        }
     }
 
     private JedisPoolConfig buildJedisPoolConfig() {
