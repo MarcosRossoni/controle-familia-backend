@@ -48,7 +48,7 @@ public class ChartDAO extends PanacheEntity {
                         "LEFT JOIN categoria c ON c.id_categoria = m.id_categoria " +
                         "LEFT JOIN usuario u ON c.id_usuario = u.id_usuario " +
                         "WHERE m.dt_vencimento BETWEEN :dtInicio AND :dtFim AND u.id_usuario = :idUsuario " +
-                        "GROUP BY c.ds_descricao, m.dt_vencimento, c.ds_cor")
+                        "GROUP BY c.ds_descricao, c.ds_cor")
                 .setParameter("dtInicio", dtInicio)
                 .setParameter("dtFim", dtFim)
                 .setParameter("idUsuario", idUsuario)

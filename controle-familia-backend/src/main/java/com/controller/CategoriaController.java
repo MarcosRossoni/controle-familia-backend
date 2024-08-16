@@ -59,8 +59,10 @@ public class CategoriaController extends GenericController{
     }
 
     public List<ListCategoriaProjectDTO> autoCompleteCategoria(String param, Integer fgTipo) {
-        return Categoria.find("LOWER(dsDescricao) LIKE LOWER(?1) AND usuario.idUsuario = 1 AND fgTipo = ?2",
-                        Sort.ascending("dsDescricao"), "%" + param + "%", TipoMovimento.values()[fgTipo])
+        return Categoria.find("LOWER(dsDescricao) LIKE LOWER(?1) AND usuario.idUsuario = ?2 AND fgTipo = ?3",
+                        Sort.ascending("dsDescricao"), "%" + param + "%",
+                        userSession.getUsuario().getIdUsuario(),
+                        TipoMovimento.values()[fgTipo])
                 .project(ListCategoriaProjectDTO.class)
                 .list();
     }
