@@ -9,6 +9,7 @@ import com.dto.PaginacaoDTO;
 import com.dto.filter.MovimentoFilterDTO;
 import com.dto.project.list.ListMovimentoProjectDTO;
 import com.enumeration.SituacaoMovimento;
+import com.enumeration.TipoMovimento;
 import com.exception.BadRequestException;
 import com.orm.Movimento;
 import io.quarkus.hibernate.orm.panache.PanacheQuery;
@@ -93,7 +94,7 @@ public class MovimentoController extends GenericController{
         }
         if (movimentoFilterDTO.getFgTipoMovimento() != null) {
             dsWhere += "AND m.fgTipoMovimento = :fgTipoMovimento";
-            parametros.put("fgTipoMovimento", movimentoFilterDTO.getFgTipoMovimento());
+            parametros.put("fgTipoMovimento", TipoMovimento.values()[movimentoFilterDTO.getFgTipoMovimento()]);
         }
 
         String dsSelect = """
