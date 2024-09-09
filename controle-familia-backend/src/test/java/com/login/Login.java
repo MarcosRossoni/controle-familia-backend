@@ -32,7 +32,7 @@ public class Login {
                     PASSWORD
             );
 
-            token = "bearer " + authDTO.getAccessToken();
+            token = "Bearer " + authDTO.getAccessToken();
             return token;
         }
         return token;
