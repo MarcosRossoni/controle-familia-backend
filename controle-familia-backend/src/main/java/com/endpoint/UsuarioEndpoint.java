@@ -1,8 +1,10 @@
 package com.endpoint;
 
 import com.controller.UsuarioController;
-import com.dto.UsuarioDTO;
-import com.dto.project.list.ListUsuarioProjectDTO;
+import com.dto.usuario.TrocarSenhaUsuarioDTO;
+import com.dto.usuario.UsuarioAtualizacaoDTO;
+import com.dto.usuario.UsuarioDTO;
+import com.dto.usuario.project.ListUsuarioProjectDTO;
 import com.endpoint.auth.NoSession;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
@@ -27,9 +29,16 @@ public class UsuarioEndpoint {
     }
 
     @PUT
-    public Response atualizacaoUsuario(UsuarioDTO usuarioDTO){
-        UsuarioDTO usuario = usuarioController.alteracaoUsuario(usuarioDTO);
+    public Response atualizacaoUsuario(UsuarioAtualizacaoDTO usuarioAtualizacaoDTO){
+        UsuarioDTO usuario = usuarioController.alteracaoUsuario(usuarioAtualizacaoDTO);
         return Response.ok(usuario).build();
+    }
+
+    @PATCH
+    @Path("atualizar-senha")
+    public Response atualizarSenha(TrocarSenhaUsuarioDTO usuarioDTO){
+        usuarioController.alterarSenha(usuarioDTO);
+        return Response.ok().build();
     }
 
     @GET

@@ -1,10 +1,10 @@
 package com.endpoint;
 
 import com.controller.MovimentoController;
-import com.dto.MovimentoAtualizarCadastrarDTO;
-import com.dto.MovimentoDTO;
-import com.dto.PaginacaoDTO;
-import com.dto.filter.MovimentoFilterDTO;
+import com.dto.movimento.MovimentoAtualizarCadastrarDTO;
+import com.dto.movimento.MovimentoDTO;
+import com.dto.paginacao.PaginacaoDTO;
+import com.dto.movimento.MovimentoFilterDTO;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;

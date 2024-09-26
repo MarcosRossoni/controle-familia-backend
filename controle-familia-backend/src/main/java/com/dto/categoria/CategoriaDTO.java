@@ -1,5 +1,6 @@
-package com.dto;
+package com.dto.categoria;
 
+import com.dto.usuario.UsuarioDTO;
 import lombok.Data;
 
 @Data

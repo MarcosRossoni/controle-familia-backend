@@ -1,4 +1,4 @@
-package com.dto.project.list;
+package com.dto.cidade.project;
 
 import io.quarkus.runtime.annotations.RegisterForReflection;
 import lombok.Data;

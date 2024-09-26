@@ -1,5 +1,8 @@
-package com.dto;
+package com.dto.movimento;
 
+import com.dto.categoria.CategoriaDTO;
+import com.dto.contabancaria.ContaBancariaDTO;
+import com.dto.usuario.UsuarioDTO;
 import lombok.Data;
 
 import java.math.BigDecimal;

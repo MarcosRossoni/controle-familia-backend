@@ -1,10 +1,10 @@
 package com.endpoint;
 
 import com.controller.CategoriaController;
-import com.dto.CategoriaDTO;
-import com.dto.filter.CategoriaFilterDTO;
-import com.dto.PaginacaoDTO;
-import com.dto.project.list.ListCategoriaProjectDTO;
+import com.dto.categoria.CategoriaDTO;
+import com.dto.categoria.CategoriaFilterDTO;
+import com.dto.paginacao.PaginacaoDTO;
+import com.dto.categoria.project.ListCategoriaProjectDTO;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;

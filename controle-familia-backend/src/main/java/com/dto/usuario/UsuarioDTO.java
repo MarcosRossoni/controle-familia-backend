@@ -1,5 +1,6 @@
-package com.dto;
+package com.dto.usuario;
 
+import com.dto.cidade.CidadeDTO;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import org.hibernate.validator.constraints.Length;

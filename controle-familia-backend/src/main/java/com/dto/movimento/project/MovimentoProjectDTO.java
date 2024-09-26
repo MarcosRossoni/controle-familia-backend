@@ -1,7 +1,7 @@
-package com.dto.project.projectdto;
+package com.dto.movimento.project;
 
-import com.dto.CategoriaDTO;
-import com.dto.ContaBancariaDTO;
+import com.dto.categoria.CategoriaDTO;
+import com.dto.contabancaria.ContaBancariaDTO;
 import io.quarkus.runtime.annotations.RegisterForReflection;
 import lombok.Data;
 

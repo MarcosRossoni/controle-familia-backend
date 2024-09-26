@@ -3,7 +3,7 @@ package com.controller;
 import com.controller.session.Session;
 import com.controller.session.SessionModel;
 import com.dao.MovimentoParcelaDAO;
-import com.dto.MovimentoAtualizarCadastrarDTO;
+import com.dto.movimento.MovimentoAtualizarCadastrarDTO;
 import com.enumeration.LogEnum;
 import com.enumeration.SituacaoMovimento;
 import com.enumeration.TipoMovimento;

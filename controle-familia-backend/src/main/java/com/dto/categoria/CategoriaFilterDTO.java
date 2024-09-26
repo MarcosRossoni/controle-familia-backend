@@ -1,6 +1,6 @@
-package com.dto.filter;
+package com.dto.categoria;
 
-import com.dto.PaginacaoDTO;
+import com.dto.paginacao.PaginacaoDTO;
 import jakarta.ws.rs.QueryParam;
 import lombok.Data;
 import lombok.EqualsAndHashCode;

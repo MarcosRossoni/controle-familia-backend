@@ -1,8 +1,8 @@
 package com.endpoint;
 
 import com.controller.ContaBancariaController;
-import com.dto.ContaBancariaDTO;
-import com.dto.project.list.ListContasBancariasProjectDTO;
+import com.dto.contabancaria.ContaBancariaDTO;
+import com.dto.contabancaria.project.ListContasBancariasProjectDTO;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;

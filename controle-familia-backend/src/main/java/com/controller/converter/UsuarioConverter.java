@@ -1,6 +1,6 @@
 package com.controller.converter;
 
-import com.dto.UsuarioDTO;
+import com.dto.usuario.UsuarioDTO;
 import com.orm.Usuario;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;

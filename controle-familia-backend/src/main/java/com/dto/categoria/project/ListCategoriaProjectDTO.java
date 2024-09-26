@@ -1,4 +1,4 @@
-package com.dto.project.list;
+package com.dto.categoria.project;
 
 import com.enumeration.TipoMovimento;
 import io.quarkus.runtime.annotations.RegisterForReflection;

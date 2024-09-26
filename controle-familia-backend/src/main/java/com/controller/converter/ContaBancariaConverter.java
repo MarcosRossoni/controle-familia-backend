@@ -1,6 +1,6 @@
 package com.controller.converter;
 
-import com.dto.ContaBancariaDTO;
+import com.dto.contabancaria.ContaBancariaDTO;
 import com.enumeration.TipoContaBancaria;
 import com.orm.ContaBancaria;
 import jakarta.enterprise.context.ApplicationScoped;

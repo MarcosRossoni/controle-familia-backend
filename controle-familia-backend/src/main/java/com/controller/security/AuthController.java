@@ -1,7 +1,7 @@
 package com.controller.security;
 
 import com.controller.cache.SessionCache;
-import com.dto.AuthDTO;
+import com.dto.auth.AuthDTO;
 import com.orm.Auth;
 import com.orm.Usuario;
 import io.quarkus.security.UnauthorizedException;

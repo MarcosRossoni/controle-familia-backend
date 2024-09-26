@@ -1,6 +1,6 @@
 package com.controller.converter;
 
-import com.dto.CategoriaDTO;
+import com.dto.categoria.CategoriaDTO;
 import com.enumeration.TipoMovimento;
 import com.orm.Categoria;
 import jakarta.enterprise.context.ApplicationScoped;

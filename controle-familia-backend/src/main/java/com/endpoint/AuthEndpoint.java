@@ -1,7 +1,7 @@
 package com.endpoint;
 
 import com.controller.security.AuthController;
-import com.dto.AuthDTO;
+import com.dto.auth.AuthDTO;
 import com.endpoint.auth.NoSession;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;

@@ -1,6 +1,6 @@
 package com.controller.converter;
 
-import com.dto.CidadeDTO;
+import com.dto.cidade.CidadeDTO;
 import com.orm.Cidade;
 import jakarta.enterprise.context.ApplicationScoped;
 

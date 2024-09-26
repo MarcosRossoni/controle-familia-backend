@@ -1,5 +1,6 @@
-package com.dto;
+package com.dto.contabancaria;
 
+import com.dto.usuario.UsuarioDTO;
 import lombok.Data;
 
 import java.math.BigDecimal;

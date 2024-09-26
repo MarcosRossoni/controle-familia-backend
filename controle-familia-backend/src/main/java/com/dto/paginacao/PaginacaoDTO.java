@@ -1,4 +1,4 @@
-package com.dto;
+package com.dto.paginacao;
 
 import io.quarkus.hibernate.orm.panache.PanacheQuery;
 import io.quarkus.panache.common.Page;

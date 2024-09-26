@@ -1,4 +1,4 @@
-package com.dto;
+package com.dto.cidade;
 
 import lombok.Data;
 

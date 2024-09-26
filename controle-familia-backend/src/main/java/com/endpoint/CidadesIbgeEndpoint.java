@@ -1,7 +1,7 @@
 package com.endpoint;
 
 import com.controller.CidadesController;
-import com.dto.project.list.ListCidadesProjectDTO;
+import com.dto.cidade.project.ListCidadesProjectDTO;
 import com.endpoint.auth.NoSession;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
